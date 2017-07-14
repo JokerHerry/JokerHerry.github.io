@@ -244,6 +244,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-external-link"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -273,7 +283,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/12/first/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/13/android1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JokerHerry">
@@ -292,7 +302,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/12/first/" itemprop="url">Hexo搭建自己的博客</a></h1>
+                <a class="post-title-link" href="/2017/07/13/android1/" itemprop="url">Okhttp的简单使用以及基本配置</a></h1>
         
 
         <div class="post-meta">
@@ -304,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T15:39:31+08:00">
-                2017-07-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T18:54:26+08:00">
+                2017-07-13
               </time>
             
 
@@ -327,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/使用hexo实现github博客搭建/" itemprop="url" rel="index">
-                    <span itemprop="name">使用hexo实现github博客搭建</span>
+                  <a href="/categories/android学习之路/" itemprop="url" rel="index">
+                    <span itemprop="name">android学习之路</span>
                   </a>
                 </span>
 
@@ -362,18 +372,14 @@
 
       
         
-          
-            <p>今天搭建了一个属于自己的blog，以后应该会将他一步一步的变得更加漂亮一点。。。</p>
-<p>今天就先写一点最基础的配置的东西。</p>
-<h2 id="hexo基础配置"><a href="#hexo基础配置" class="headerlink" title="hexo基础配置"></a>hexo基础配置</h2><p><a href="https://hexo.io" target="_blank" rel="external">hexo的官网链接</a></p>
-<h3 id="下载安装以及使用"><a href="#下载安装以及使用" class="headerlink" title="下载安装以及使用"></a>下载安装以及使用</h3><p>windows环境下的话，你首先的要保证自己的已经装好了node以及Git（后面配置用得着）。然后通过node的npm进行安装。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-cli -g	<span class="comment">#下载安装hexo，速度可能比较慢</span></div><div class="line">$ hexo init blog		<span class="comment">#选择文件存放位置安装 hexo init F:/hexo</span></div><div class="line">$ <span class="built_in">cd</span> blog			<span class="comment">#切换到创建的工程文件目录之下</span></div><div class="line">$ npm install			<span class="comment">#对新建的工程进行安装配置</span></div><div class="line">$ hexo server			<span class="comment">#开启我们新建的项目，也可以使用hexo s</span></div></pre></td></tr></table></figure>
-<p>现在打开我们<a href="https://localhost:4000" target="_blank" rel="external">localhost:4000</a>，可以看到hexo的默认界面，当然我们接下来就要对其进行修改。</p>
-<p><img src="https://volc1605.github.io/images/Hexo之NexT主题搭建博客详细过程/h.png" alt="hexo"></p>
-<h2 id="github中创建自己的站点"><a href="#github中创建自己的站点" class="headerlink" title="github中创建自己的站点"></a>github中创建自己的站点</h2><h3 id="申请github账号"><a href="#申请github账号" class="headerlink" title="申请github账号"></a>申请github账号</h3><p>答案通俗移动，简单一个字，“略”。</p>
-<h3 id="创建自己的站点"><a href="#创建自己的站点" class="headerlink" title="创建自己的站点"></a>创建自己的站点</h3><p>提供一篇<a href="http://blog.csdn.net/renfufei/article/details/37725057/" target="_blank" rel="external">参考文章</a>。基本创建即可，主意保持创建的名字以及自己的用户名保持一致。</p>
-
-          
+          <p>首先要想进行android开发的话，网络交互肯定是免不了的。之前一直用的是<a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">Android-Async-Http</a>,但后来听说因为android把HttpClient给取消掉了，于是基于HttpClient创建的android-async-http也就失去了继续留下去的必要，所以作者也已经停止了该项目的维护，Android5.0之后便不在推荐在项目中进行使用。所以也是有必要好好学习一下Okhttp了。<br>(废话很多，看来以后还是要改改啊。😅)<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/13/android1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -504,18 +510,152 @@
 
       
         
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/12/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/12/first/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JokerHerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DD993">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/12/first/" itemprop="url">Hexo搭建自己的博客</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T15:39:31+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/使用hexo实现github博客搭建/" itemprop="url" rel="index">
+                    <span itemprop="name">使用hexo实现github博客搭建</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>今天搭建了一个属于自己的blog，以后应该会将他一步一步的变得更加漂亮一点。。。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/12/first/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -594,7 +734,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -605,7 +745,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -616,7 +756,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
