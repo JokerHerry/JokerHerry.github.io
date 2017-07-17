@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[github项目学习：Context-Menu.Android]]></title>
+      <url>/2017/07/17/android2/</url>
+      <content type="html"><![CDATA[<p>看图看效果，Context-Menu.Android在github上是一个比较火的项目，而且实现效果也也比较简单，仅需几部就可以实现一个优雅的动态菜单。这一部分讲解一下怎么在androidStudio怎么实现。<br><img src="/2017/07/17/android2/1.gif" alt="Context-Menu.Android效果展示" title="Context-Menu.Android效果展示"><br><a id="more"></a></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>先奉上github的链接。<a href="https://github.com/Yalantis/Context-Menu.Android" target="_blank" rel="external">戳戳戳</a></p>
+<p>复制组件的代码到自己项目的gradle中，然后点击同步。【注意。是自己的app的gradle中，不是工程名的那一个gradle中。】<br><img src="/2017/07/17/android2/2.png" alt="github中找到组建的代码" title="github中找到组建的代码"><br><img src="/2017/07/17/android2/3.png" alt="androidStudio中的组建方式" title="androidStudio中的组建方式"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>同步完成之后，我们可以在我们自己的工程中使用这个菜单组件了。</p>
+<h3 id="申明全局组件"><a href="#申明全局组件" class="headerlink" title="申明全局组件"></a>申明全局组件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">private ContextMenuDialogFragment contextMenuDialogFragment;</div><div class="line">private FragmentManager fragmentManager;</div></pre></td></tr></table></figure>
+<h3 id="创建菜单项的组件"><a href="#创建菜单项的组件" class="headerlink" title="创建菜单项的组件"></a>创建菜单项的组件</h3><h4 id="创建MenuList"><a href="#创建MenuList" class="headerlink" title="创建MenuList"></a>创建MenuList</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">ArrayList&lt;MenuObject&gt; menuObjects = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">MenuObject close = new MenuObject();</div><div class="line">close.setResource(R.drawable.icn_close);</div><div class="line"></div><div class="line">MenuObject icn1 = new MenuObject(<span class="string">"icn1"</span>);</div><div class="line">icn1.setResource(R.drawable.icn_1);</div><div class="line"></div><div class="line">MenuObject icn2 = new MenuObject(<span class="string">"icn2"</span>);</div><div class="line">icn2.setResource(R.drawable.icn_2);</div><div class="line">icn2.setBgColor(Color.parseColor(<span class="string">"#000000"</span>));</div><div class="line"></div><div class="line">MenuObject icn3 = new MenuObject(<span class="string">"icn3"</span>);</div><div class="line">icn3.setColor(Color.parseColor(<span class="string">"#0000ff"</span>));</div><div class="line"></div><div class="line">menuObjects.add(close);</div><div class="line">menuObjects.add(icn1);</div><div class="line">menuObjects.add(icn2);</div><div class="line">menuObjects.add(icn3);</div></pre></td></tr></table></figure>
+<h4 id="对菜单子项进行配置"><a href="#对菜单子项进行配置" class="headerlink" title="对菜单子项进行配置"></a>对菜单子项进行配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//1	创建菜单组件</div><div class="line">MenuParams menuParams = new MenuParams();</div><div class="line">//2	将子项组件加入</div><div class="line">menuParams.setMenuObjects(menuObjects);</div><div class="line">//3	点击空白地区可以取消关闭菜单</div><div class="line">menuParams.setClosableOutside(<span class="literal">true</span>);</div><div class="line">//4	设置每个菜单子项的大小</div><div class="line">menuParams.setActionBarSize(200);</div></pre></td></tr></table></figure>
+<h4 id="注"><a href="#注" class="headerlink" title="注"></a>注</h4><p>根据官方文档，我们可以通过多种方式对菜单子项进行配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">item.setResource(...)  </div><div class="line">item.setBitmap(...)  </div><div class="line">item.setDrawable(...)  </div><div class="line">item.setColor(...)</div></pre></td></tr></table></figure></p>
+<h3 id="对ContextMenuDialogFragment进行实例化"><a href="#对ContextMenuDialogFragment进行实例化" class="headerlink" title="对ContextMenuDialogFragment进行实例化"></a>对ContextMenuDialogFragment进行实例化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//设置实例化</div><div class="line">contextMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);</div><div class="line">//打开OnClick方法</div><div class="line">contextMenuDialogFragment.setItemClickListener(this);</div><div class="line">//打开LongOnClick方法</div><div class="line">contextMenuDialogFragment.setItemLongClickListener(this);</div></pre></td></tr></table></figure>
+<p>注意，在打开OnClick和LongOnClick的时候，需要添加接口。Alt+Enter即可。<br><img src="/2017/07/17/android2/4.png" alt="引用OnClick接口" title="引用OnClick接口"></p>
+<h3 id="设置打开ContextMenuDialogFragment的菜单按钮"><a href="#设置打开ContextMenuDialogFragment的菜单按钮" class="headerlink" title="设置打开ContextMenuDialogFragment的菜单按钮"></a>设置打开ContextMenuDialogFragment的菜单按钮</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public boolean onCreateOptionsMenu(final Menu menu) &#123;</div><div class="line">    MenuInflater inflater = getMenuInflater();</div><div class="line">    inflater.inflate(R.menu.menu_main, menu);</div><div class="line">    <span class="built_in">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@Override</div><div class="line">public boolean onOptionsItemSelected(MenuItem item) &#123;</div><div class="line">    switch (item.getItemId()) &#123;</div><div class="line">        <span class="keyword">case</span> R.id.context_menu:</div><div class="line">            contextMenuDialogFragment.show(fragmentManager, <span class="string">"ContextMenuDialogFragment"</span>);</div><div class="line">            <span class="built_in">break</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">return</span> super.onOptionsItemSelected(item);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注：需要再res/menu/menu_main.xml中配置一下菜单项。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;item</div><div class="line">    android:id=<span class="string">"@+id/context_menu"</span></div><div class="line">    android:title=<span class="string">"Context menu"</span></div><div class="line">    android:icon=<span class="string">"@drawable/btn_add"</span></div><div class="line">    android:orderInCategory=<span class="string">"100"</span></div><div class="line">    app:showAsAction=<span class="string">"always"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="实现onItemClick方法"><a href="#实现onItemClick方法" class="headerlink" title="实现onItemClick方法"></a>实现onItemClick方法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">  @Override</div><div class="line">  public void onMenuItemClick(View clickedView, int position) &#123;</div><div class="line">//根据position实现自己的方法</div><div class="line">      Log.e(<span class="string">"bili"</span>,position+<span class="string">"   OK"</span>);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>这样我们就实现最基本的Context-Menu.Android的配置使用。<br>毕竟开源的代码，我们也可以根据自己的需要，然后定制自己的功能。</p>
+<p>然后奉上自己的实力代码块。<br><a href="UItest.rar">给你看个宝贝</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> android学习之路 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> android </tag>
+            
+            <tag> UI界面 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Okhttp的简单使用以及基本配置]]></title>
+      <url>/2017/07/13/android1/</url>
+      <content type="html"><![CDATA[<p>首先要想进行android开发的话，网络交互肯定是免不了的。之前一直用的是<a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">Android-Async-Http</a>,但后来听说因为android把HttpClient给取消掉了，于是基于HttpClient创建的android-async-http也就失去了继续留下去的必要，所以作者也已经停止了该项目的维护，Android5.0之后便不在推荐在项目中进行使用。所以也是有必要好好学习一下Okhttp了。<br>(废话很多，看来以后还是要改改啊。😅)<br><a id="more"></a>    </p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>有两种引入的方式，一个是引入Jar包，直接本地使用，第二种方式在Gradle中，直接配置。</p>
+<h3 id="使用Jar包"><a href="#使用Jar包" class="headerlink" title="使用Jar包"></a>使用Jar包</h3><p>略</p>
+<h3 id="Gradle中使用"><a href="#Gradle中使用" class="headerlink" title="Gradle中使用"></a>Gradle中使用</h3><p>使用androidStudio的用户可以直接使用Gradle中引入okHttp。</p>
+<p>1.在okHttp的github上面,找到 compile ‘com.squareup.okhttp3:okhttp:3.8.1’ 并复制。<br><img src="/2017/07/13/android1/1.png" alt="找到使用的Gradle代码" title="找到使用的Gradle代码"><br>2.在Gradle中进行配置。将刚才复制的代码复制到如图所示的地方，然后点击同步，同步完了之后就会自动引用了。<br><img src="/2017/07/13/android1/2.png" alt="gradle中的配置" title="gradle中的配置"></p>
+<h2 id="okHttp的基本使用"><a href="#okHttp的基本使用" class="headerlink" title="okHttp的基本使用"></a>okHttp的基本使用</h2><h3 id="git请求"><a href="#git请求" class="headerlink" title="git请求"></a>git请求</h3><p>一共可以分为4各部分进行来进行使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#1.首先建立一个OkHttpClient对象</span></div><div class="line">OkHttpClient okHttpClient = new OkHttpClient();</div><div class="line"><span class="comment">#2.配置我们的request</span></div><div class="line">Request.Builder builder = new Request.Builder();</div><div class="line">Request request = builder</div><div class="line">                .get()</div><div class="line">                .url(<span class="string">"http://192.168.1.4:8000"</span>)</div><div class="line">                .build();</div><div class="line"><span class="comment">#3.申明执行该任务的对象</span></div><div class="line">Call call = okHttpClient.newCall(request);</div><div class="line"><span class="comment">#4.开始执行</span></div><div class="line">call.enqueue(new <span class="function"><span class="title">Callback</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onFailure(Call call, IOException e) &#123;</div><div class="line">                Log.e(<span class="string">"get请求失败"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void onResponse(Call call, Response response) throws IOException &#123;</div><div class="line">                Log.e(<span class="string">"get请求成功"</span>);</div><div class="line">				String str = response.body().string();</div><div class="line">				Log.e(str);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<h3 id="post请求"><a href="#post请求" class="headerlink" title="post请求"></a>post请求</h3>]]></content>
+      
+        <categories>
+            
+            <category> android学习之路 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> android </tag>
+            
+            <tag> okhttp </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hexo搭建自己的博客]]></title>
+      <url>/2017/07/12/first/</url>
+      <content type="html"><![CDATA[<p>今天搭建了一个属于自己的blog，以后应该会将他一步一步的变得更加漂亮一点。。。</p>
+<a id="more"></a> 
+<p>今天就先写一点最基础的配置的东西。</p>
+<h2 id="hexo基础配置"><a href="#hexo基础配置" class="headerlink" title="hexo基础配置"></a>hexo基础配置</h2><p><a href="https://hexo.io" target="_blank" rel="external">hexo的官网链接</a></p>
+<h3 id="下载安装以及使用"><a href="#下载安装以及使用" class="headerlink" title="下载安装以及使用"></a>下载安装以及使用</h3><p>windows环境下的话，你首先的要保证自己的已经装好了node以及Git（后面配置用得着）。然后通过node的npm进行安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-cli -g	<span class="comment">#下载安装hexo，速度可能比较慢</span></div><div class="line">$ hexo init blog		<span class="comment">#选择文件存放位置安装 hexo init F:/hexo</span></div><div class="line">$ <span class="built_in">cd</span> blog			<span class="comment">#切换到创建的工程文件目录之下</span></div><div class="line">$ npm install			<span class="comment">#对新建的工程进行安装配置</span></div><div class="line">$ hexo server			<span class="comment">#开启我们新建的项目，也可以使用hexo s</span></div></pre></td></tr></table></figure>
+<p>现在打开我们<a href="https://localhost:4000" target="_blank" rel="external">localhost:4000</a>，可以看到hexo的默认界面，当然我们接下来就要对其进行修改。</p>
+<p><img src="https://volc1605.github.io/images/Hexo之NexT主题搭建博客详细过程/h.png" alt="hexo"></p>
+<h2 id="github中创建自己的站点"><a href="#github中创建自己的站点" class="headerlink" title="github中创建自己的站点"></a>github中创建自己的站点</h2><h3 id="申请github账号"><a href="#申请github账号" class="headerlink" title="申请github账号"></a>申请github账号</h3><p>答案通俗移动，简单一个字，“略”。</p>
+<h3 id="创建自己的站点"><a href="#创建自己的站点" class="headerlink" title="创建自己的站点"></a>创建自己的站点</h3><p>提供一篇<a href="http://blog.csdn.net/renfufei/article/details/37725057/" target="_blank" rel="external">参考文章</a>。基本创建即可，主意保持创建的名字以及自己的用户名保持一致。</p>
+<h2 id="吃水不忘挖井人"><a href="#吃水不忘挖井人" class="headerlink" title="吃水不忘挖井人"></a>吃水不忘挖井人</h2><p><a href="http://volcfamily.cn/2016/10/03/Hexo%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B/" target="_blank" rel="external">http://volcfamily.cn/2016/10/03/Hexo%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B/</a><br><a href="http://barrysite.me/2017/05/07/Github%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" target="_blank" rel="external">http://barrysite.me/2017/05/07/Github%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</a><br><a href="http://ibruce.info/2013/11/26/markdown/" target="_blank" rel="external">http://ibruce.info/2013/11/26/markdown/</a><br><a href="https://www.zhihu.com/question/23934523" target="_blank" rel="external">https://www.zhihu.com/question/23934523</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 使用hexo实现github博客搭建 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> nodejs </tag>
+            
+            <tag> hexo </tag>
+            
+            <tag> NexT </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>/2017/07/12/hello-world/</url>
+      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 使用hexo实现github博客搭建 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> nodejs </tag>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+  
+  
+</search>
