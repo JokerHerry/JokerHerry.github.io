@@ -77,8 +77,94 @@
 <h3 id="Gradle中使用"><a href="#Gradle中使用" class="headerlink" title="Gradle中使用"></a>Gradle中使用</h3><p>使用androidStudio的用户可以直接使用Gradle中引入okHttp。</p>
 <p>1.在okHttp的github上面,找到 compile ‘com.squareup.okhttp3:okhttp:3.8.1’ 并复制。<br><img src="/2017/07/13/android1/1.png" alt="找到使用的Gradle代码" title="找到使用的Gradle代码"><br>2.在Gradle中进行配置。将刚才复制的代码复制到如图所示的地方，然后点击同步，同步完了之后就会自动引用了。<br><img src="/2017/07/13/android1/2.png" alt="gradle中的配置" title="gradle中的配置"></p>
 <h2 id="okHttp的基本使用"><a href="#okHttp的基本使用" class="headerlink" title="okHttp的基本使用"></a>okHttp的基本使用</h2><h3 id="git请求"><a href="#git请求" class="headerlink" title="git请求"></a>git请求</h3><p>一共可以分为4各部分进行来进行使用。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#1.首先建立一个OkHttpClient对象</span></div><div class="line">OkHttpClient okHttpClient = new OkHttpClient();</div><div class="line"><span class="comment">#2.配置我们的request</span></div><div class="line">Request.Builder builder = new Request.Builder();</div><div class="line">Request request = builder</div><div class="line">                .get()</div><div class="line">                .url(<span class="string">"http://192.168.1.4:8000"</span>)</div><div class="line">                .build();</div><div class="line"><span class="comment">#3.申明执行该任务的对象</span></div><div class="line">Call call = okHttpClient.newCall(request);</div><div class="line"><span class="comment">#4.开始执行</span></div><div class="line">call.enqueue(new <span class="function"><span class="title">Callback</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onFailure(Call call, IOException e) &#123;</div><div class="line">                Log.e(<span class="string">"get请求失败"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void onResponse(Call call, Response response) throws IOException &#123;</div><div class="line">                Log.e(<span class="string">"get请求成功"</span>);</div><div class="line">				String str = response.body().string();</div><div class="line">				Log.e(str);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
-<h3 id="post请求"><a href="#post请求" class="headerlink" title="post请求"></a>post请求</h3>]]></content>
+<pre><code class="bash"><span class="comment">#1.首先建立一个OkHttpClient对象</span>
+OkHttpClient okHttpClient = new OkHttpClient();
+<span class="comment">#2.配置我们的request</span>
+Request.Builder builder = new Request.Builder();
+Request request = builder
+                .get()
+                .url(<span class="string">"http://192.168.1.4:8000"</span>)
+                .build();
+<span class="comment">#3.申明执行该任务的对象</span>
+Call call = okHttpClient.newCall(request);
+<span class="comment">#4.开始执行</span>
+call.enqueue(new <span class="function"><span class="title">Callback</span></span>() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(<span class="string">"get请求失败"</span>);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e(<span class="string">"get请求成功"</span>);
+                String str = response.body().string();
+                Log.e(str);
+            }
+        });
+</code></pre>
+<h3 id="post请求"><a href="#post请求" class="headerlink" title="post请求"></a>post请求</h3><p>传递key-value对可以使用提交表单的方式</p>
+<pre><code class="bash">//1.首先创建一个表单
+FormBody.Builder formBuilder = new FormBody.Builder();
+formBuilder.add(<span class="string">"key"</span>,<span class="string">"value"</span>);
+//2.通过表单创建自己的requestBody
+RequestBody requestBody = formBuilder.build();
+//3.创建自己的request。将requestBody作为参数传进去，也就是我们的key-value对
+Request.Builder builder = new Request.Builder();
+Request request = builder
+        .post(requestBody)
+        .url(url)
+        .build();
+//4.使用call方法,执行语句
+Call call = okHttpClient.newCall(request);
+call.enqueue(new <span class="function"><span class="title">Callback</span></span>() {
+    @Override
+    public void onFailure(Call call, IOException e) {
+        Log.e(TAG, <span class="string">"onFailure: "</span> );
+    }
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        String str = response.body().string();
+        Log.e(TAG, <span class="string">"onResponse: "</span>+str.toString() );
+    }
+});
+</code></pre>
+<h3 id="upload一张图片"><a href="#upload一张图片" class="headerlink" title="upload一张图片"></a>upload一张图片</h3><p>其实也是通过post的方法实现上传，只不过是把我们的参数换成了文件，而不是key-value对</p>
+<pre><code class="bash">public static void upLoadFile(String url,String filepath){
+//检测传来的文件是否存在
+    File file = new File(filepath);
+    <span class="keyword">if</span>(!file.exists()){
+        Log.e(TAG, <span class="string">"upLoadFile: 文件不存在"</span>);
+        <span class="built_in">return</span>;
+    }
+    RequestBody requestBodyfile = RequestBody.create(MediaType.parse(<span class="string">"application/octet-stream"</span>),file);
+    //构建一个文件类型的requestBody
+    MultipartBody.Builder mulitiparBuilder = new MultipartBody.Builder();
+    //这里也可以通过键值对的方式实现添加参数
+    RequestBody requestBody = mulitiparBuilder
+            .setType(MultipartBody.FORM)
+            //addFormDataPart(用于服务器识别的标识，服务器接收后文件的名字，文件-requestBody)
+            .addFormDataPart(<span class="string">"mPhoto"</span>, <span class="string">"photo.jpg"</span>, requestBodyfile)
+            .build();
+
+    Request.Builder builder = new Request.Builder();
+    Request request = builder.url(url)
+        .post(requestBody)
+        .build();
+
+    Call call =  new OkHttpClient().newCall(request);
+    call.enqueue(new <span class="function"><span class="title">Callback</span></span>() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e(TAG, <span class="string">"onFailure: 失败"</span>);
+        }
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            Log.e(TAG, <span class="string">"onResponse: 成功"</span> );
+        }
+    });
+}
+</code></pre>
+]]></content>
       
         <categories>
             
@@ -92,6 +178,8 @@
             <tag> android </tag>
             
             <tag> okhttp </tag>
+            
+            <tag> 懒人专用 </tag>
             
         </tags>
         
