@@ -3,6 +3,67 @@
   
     
     <entry>
+      <title><![CDATA[android-cardView的使用]]></title>
+      <url>/2017/09/14/android-cardView/</url>
+      <content type="html"><![CDATA[<p>首先，我们要知道cardView是android在5.0之后推出的一个界面组件，官方文档里面对什么时候用它，以及在什么情况之下使用他才能达到较好的效果，都有详细的介绍的哈，不过由于是英文，看起来还是有一点吃力哈。cardView本身是继承于FrameLayout，说明他其实也是一种布局文件，所以暂时可以理解为一种自带展示效果的一种FrameLayout布局文件。<br><a href="https://material.io/guidelines/components/cards.html" target="_blank" rel="external">官方原文文档</a><br><a href="https://github.com/1sters/material_design_zh" target="_blank" rel="external">中文文档</a><br><a id="more"></a></p>
+<h1 id="导入库文件"><a href="#导入库文件" class="headerlink" title="导入库文件"></a>导入库文件</h1><p>在gradle中进行配置</p>
+<pre><code class="bash">dependencies {
+    ...
+    compile <span class="string">'com.android.support:cardview-v7:26.+'</span>
+}
+</code></pre>
+<p>其实android有很多自带的组件，而且界面效果都非常好。在我们的android sdk的文件夹之下，<br>Android\sdk\extras\android\m2repository\com\android\support<br>里面有很多的组件，没事的时候可以挨个研究一下。<br>这里我们根据的自己的版本填写自己对应的版本号就行了。</p>
+<h1 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h1><p>打开CardView的源文件我们可以很清晰的找到caraView所拥有的属性以及方法。<br>这里我就直接找了一些。<br>app:cardBackgroundColor这是设置背景颜色<br>app:cardCornerRadius这是设置圆角大小<br>app:cardElevation这是设置z轴的阴影<br>app:cardMaxElevation这是设置z轴的最大高度值<br>app:cardUseCompatPadding是否使用CompatPadding<br>app:cardPreventCornerOverlap是否使用PreventCornerOverlap<br>app:contentPadding 设置内容的padding<br>app:contentPaddingLeft 设置内容的左padding<br>app:contentPaddingTop 设置内容的上padding<br>app:contentPaddingRight 设置内容的右padding<br>app:contentPaddingBottom 设置内容的底padding</p>
+<p>最简单的基础版</p>
+<pre><code class="bash">&lt;android.support.v7.widget.CardView
+    android:layout_margin=<span class="string">"20dp"</span>
+    android:layout_width=<span class="string">"match_parent"</span>
+    android:layout_height=<span class="string">"200dp"</span>&gt;
+&lt;/android.support.v7.widget.CardView&gt;
+</code></pre>
+<p>只是引用，什么都没加，效果就很low，就是一个有边框的FrameLayout的样子。<br><img src="/2017/09/14/android-cardView/one.png" alt="cardView基础版" title="cardView基础版"><br>让我们稍作调整，让他好看一点。</p>
+<p>成熟期版</p>
+<pre><code class="bash">&lt;android.support.v7.widget.CardView
+    android:layout_margin=<span class="string">"20dp"</span>            
+    android:layout_width=<span class="string">"match_parent"</span>
+    android:layout_height=<span class="string">"300dp"</span>
+
+    app:cardCornerRadius=<span class="string">"20dp"</span>                //加上圆角
+    app:cardElevation=<span class="string">"10dp"</span>                //加上阴影
+    app:cardBackgroundColor=<span class="string">"#dcdcdc"</span>        //加上背景颜色
+    &gt;
+    &lt;ImageView
+        android:layout_width=<span class="string">"match_parent"</span>
+        android:layout_height=<span class="string">"wrap_content"</span>
+        android:scaleType=<span class="string">"center"</span>
+        android:src=<span class="string">"@drawable/pic"</span>
+        tools:ignore=<span class="string">"ContentDescription"</span> /&gt;        
+&lt;/android.support.v7.widget.CardView&gt;
+</code></pre>
+<p>这一次我们新增加了一些属性，让其变得更像卡片一些。<br><img src="/2017/09/14/android-cardView/two.png" alt="cardView成熟期" title="cardView成熟期"><br>有没有觉得现在看起来要好看一些了呢！</p>
+<p>最后我们仿照着官方文档中的那个图片做一个类似的。<br><img src="/2017/09/14/android-cardView/three.png" alt="cardView官方图片" title="cardView官方图片"><br><img src="/2017/09/14/android-cardView/four.png" alt="cardView仿照制作" title="cardView仿照制作"></p>
+<p>看起来效果还不错是吧。</p>
+<p>源文件已经上传，有兴趣的朋友可以看一下。<br><a href="https://github.com/JokerHerry/donghua" target="_blank" rel="external">链接在此</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> android学习之路 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> android </tag>
+            
+            <tag> materialDesign </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[java基本理解，以及常用小技巧]]></title>
       <url>/2017/07/31/java1/</url>
       <content type="html"><![CDATA[<h1 id="基本理解"><a href="#基本理解" class="headerlink" title="基本理解"></a>基本理解</h1><h2 id="jdk与jre的关系"><a href="#jdk与jre的关系" class="headerlink" title="jdk与jre的关系"></a>jdk与jre的关系</h2><a id="more"></a>
