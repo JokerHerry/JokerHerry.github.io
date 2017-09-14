@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/07/31/java1/</loc>
+    <lastmod>2017-09-13T15:27:40.465Z</lastmod>
+    <data>
+        <display>
+        <title>java基本理解，以及常用小技巧</title>
+        <pubTime>2017-07-31T13:55:29.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="java理解" url="http://yoursite.com/categories/java%E7%90%86%E8%A7%A3/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/07/13/android1/</loc>
     <lastmod>2017-09-13T15:25:30.877Z</lastmod>
     <data>
@@ -21,24 +39,6 @@
            
              
               <breadCrumb title="android学习之路" url="http://yoursite.com/categories/android%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/07/31/java1/</loc>
-    <lastmod>2017-07-31T14:36:03.325Z</lastmod>
-    <data>
-        <display>
-        <title>java基本理解，以及常用小技巧</title>
-        <pubTime>2017-07-31T13:55:29.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="java理解" url="http://yoursite.com/categories/java%E7%90%86%E8%A7%A3/"/>
           
         </display>
     </data>

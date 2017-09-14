@@ -372,24 +372,14 @@
 
       
         
-          
-            <h1 id="基本理解"><a href="#基本理解" class="headerlink" title="基本理解"></a>基本理解</h1><h2 id="jdk与jre的关系"><a href="#jdk与jre的关系" class="headerlink" title="jdk与jre的关系"></a>jdk与jre的关系</h2><p>因为每次在官网上下载的jdk的安装包的时候，安装时就会发现，我们不仅安装我们所需要的jdk，而且我们还安装了一个jre，于是不禁有点好奇。经过网上查阅，总结了一下：</p>
-<p>jre(java runtime environment)  java运行环境<br>jdk(Java Development Kit)  java开发者工具<br>jvm(Java Virtual Machine)  java虚拟机<br><img src="/2017/07/31/java1/1.jpg" alt="层次结构" title="层次结构"></p>
-<h3 id="理清关系"><a href="#理清关系" class="headerlink" title="理清关系"></a>理清关系</h3><p>我们现在一般下载的jkd中都已经包含了jre，所以一般在安装jdk的时候会自动提醒安装jre。<br>jre与jdk是相互独立的两个东西。<br>JRE（java运行时环境）包含JVM的java程序的运行环境。<br>因为java需要首先将java程序编译成为javac的中间件，但是机器并不认识这种编译，只有通过jvm处理，同时也保证了跨平台编译，而现在jvm一般也都集成在了jre之中。</p>
-<h3 id="JDK（Java-Development-Kit）"><a href="#JDK（Java-Development-Kit）" class="headerlink" title="JDK（Java Development Kit）"></a>JDK（Java Development Kit）</h3><p>JDK是Java开发工具包，是Sun Microsystems针对Java开发员的产品。<br>JDK中包含JRE，在JDK的安装目录下有一个名为jre的目录，里面有两个文件夹bin和lib，在这里可以认为bin里的就是jvm，lib中则是jvm工作所需要的类库，而jvm和 lib和起来就称为jre。<br>JDK是整个JAVA的核心，包括了Java运行环境JRE（Java Runtime Envirnment）、一堆Java工具（javac/java/jdb等）和Java基础的类库（即Java API 包括rt.jar）。</p>
-<h3 id="Java-Runtime-Environment（JRE）"><a href="#Java-Runtime-Environment（JRE）" class="headerlink" title="Java Runtime Environment（JRE）"></a>Java Runtime Environment（JRE）</h3><p>是运行基于Java语言编写的程序所不可缺少的运行环境。也是通过它，Java的开发者才得以将自己开发的程序发布到用户手中，让用户使用。<br>JRE中包含了Java virtual machine（JVM），runtime class libraries和Java application launcher，这些是运行Java程序的必要组件。<br>与大家熟知的JDK不同，JRE是Java运行环境，并不是一个开发环境，所以没有包含任何开发工具（如编译器和调试器），只是针对于使用Java程序的用户。</p>
-<h3 id="JVM（java-virtual-machine）"><a href="#JVM（java-virtual-machine）" class="headerlink" title="JVM（java virtual machine）"></a>JVM（java virtual machine）</h3><p>就是我们常说的java虚拟机，它是整个java实现跨平台的最核心的部分，所有的java程序会首先被编译为.class的类文件，这种类文件可以在虚拟机上执行。<br>也就是说class并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。<br>只有JVM还不能成class的执行，因为在解释class的时候JVM需要调用解释所需要的类库lib，而jre包含lib类库。<br>JVM屏蔽了与具体操作系统平台相关的信息，使得Java程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。</p>
-<h1 id="常用技巧"><a href="#常用技巧" class="headerlink" title="常用技巧"></a>常用技巧</h1><h2 id="查看自己的java是32位的，还是64位"><a href="#查看自己的java是32位的，还是64位" class="headerlink" title="查看自己的java是32位的，还是64位"></a>查看自己的java是32位的，还是64位</h2><p>方法一：</p>
-<pre><code class="bash">在cmd使用指令：        java -version
-</code></pre>
-<p>可以看到自己的java版本，如果是64位的话，会直接在最下方显示64Bit，32位的话就不会显示，我的就是32位的。<br><img src="/2017/07/31/java1/2.png" alt="2.png" title=""></p>
-<p>方法二：使用定向指令</p>
-<pre><code class="bash">在cmd使用指令：        java d32-version
-在cmd使用指令：        java d64-version
-</code></pre>
-<p>这样就可以看到自己的装的32位java与64位java分别各是多少版本。<br><img src="/2017/07/31/java1/3.png" alt="3.png" title=""></p>
-
-          
+          <h1 id="基本理解"><a href="#基本理解" class="headerlink" title="基本理解"></a>基本理解</h1><h2 id="jdk与jre的关系"><a href="#jdk与jre的关系" class="headerlink" title="jdk与jre的关系"></a>jdk与jre的关系</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/31/java1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -707,144 +697,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/12/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JokerHerry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/0.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DD993">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/12/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T15:39:31+08:00">
-                2017-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/使用hexo实现github博客搭建/" itemprop="url" rel="index">
-                    <span itemprop="name">使用hexo实现github博客搭建</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/12/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/12/first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -938,6 +790,144 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/12/first/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/12/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JokerHerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DD993">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/12/hello-world/" itemprop="url">Hello World</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T15:39:31+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/使用hexo实现github博客搭建/" itemprop="url" rel="index">
+                    <span itemprop="name">使用hexo实现github博客搭建</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/12/hello-world/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
