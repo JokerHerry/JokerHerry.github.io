@@ -1,0 +1,836 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Android四大组件一，相当于一个看不见的Acticity，虽然多线程也是看不见的，也是在后台默默运行的，但是服务server和多线程Thread完全不一样！！！servere还是运行在主线程中，所以在service不要运行耗时的操作，会直接报错！">
+<meta name="keywords" content="android基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android四大组件之服务">
+<meta property="og:url" content="http://yoursite.com/2017/10/16/Android四大组件之服务/index.html">
+<meta property="og:site_name" content="DD993">
+<meta property="og:description" content="Android四大组件一，相当于一个看不见的Acticity，虽然多线程也是看不见的，也是在后台默默运行的，但是服务server和多线程Thread完全不一样！！！servere还是运行在主线程中，所以在service不要运行耗时的操作，会直接报错！">
+<meta property="og:image" content="http://yoursite.com/2017/10/16/Android四大组件之服务/1.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/16/Android四大组件之服务/2.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/16/Android四大组件之服务/3.png">
+<meta property="og:updated_time" content="2017-10-17T00:38:21.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android四大组件之服务">
+<meta name="twitter:description" content="Android四大组件一，相当于一个看不见的Acticity，虽然多线程也是看不见的，也是在后台默默运行的，但是服务server和多线程Thread完全不一样！！！servere还是运行在主线程中，所以在service不要运行耗时的操作，会直接报错！">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/16/Android四大组件之服务/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/16/Android四大组件之服务/"/>
+
+
+
+
+
+  <title>Android四大组件之服务 | DD993</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DD993</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">DD993</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-external-link"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/Android四大组件之服务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JokerHerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DD993">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android四大组件之服务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T20:44:46+08:00">
+                2017-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android学习之路/" itemprop="url" rel="index">
+                    <span itemprop="name">android学习之路</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android四大组件一，相当于一个看不见的Acticity，虽然多线程也是看不见的，也是在后台默默运行的，但是服务server和多线程Thread完全不一样！！！servere还是运行在主线程中，所以在service不要运行耗时的操作，会直接报错！<br><a id="more"></a></p>
+<p>所以，先总结一下service的特点，然后再来挨着验证：<br>1、运行在主线程，不宜进行耗时操作；<br>2、相当于一个隐形的Activity；<br>3、运行的即使是运行的进程死掉，服务也不一定会死掉；</p>
+<h1 id="接下来看一下如何使用"><a href="#接下来看一下如何使用" class="headerlink" title="接下来看一下如何使用"></a>接下来看一下如何使用</h1><h2 id="1、构建服务-service"><a href="#1、构建服务-service" class="headerlink" title="1、构建服务 service"></a>1、构建服务 service</h2><p>类似与四大组件的通用创建方式。直接新建，选择service，然后Exported表示其他App也可以访问这个服务，然后Enable表示开启这个服务，即可。AS会自动在xml中创建标签。</p>
+<p>新的service要求重写onBind()函数，用户返回连接的Bind,后面会用到。</p>
+<p>我们一般会手动重写一下onCreate(),onStartCommand(),onDestory()这三个函数。用于处理service需要做的事情。</p>
+<h2 id="2、启动服务-service"><a href="#2、启动服务-service" class="headerlink" title="2、启动服务 service"></a>2、启动服务 service</h2><p>在Activity中，我们有两种方法启动service。<br>一种是直接启动，然后就不管了（当然也管不了），任由服务自身自灭，就算是服务完成了工作，Activity也不知道，完全互补干涩。相当于散养。<br>一种是在启动的时候，保留一个连接，通过这个连接可以随时监控service的状态，以及控制service。（圈养）</p>
+<h3 id="1-散养（startService）"><a href="#1-散养（startService）" class="headerlink" title="(1)散养（startService）"></a>(1)散养（startService）</h3><p>在Activity中，使用：<br>//开启<br>Intent i = new Intent(this,MyService.class);<br>startService(i);<br>//关闭<br>Intent i = new Intent(this,MyService.class);<br>stopService(i);</p>
+<p>就像启动一个最简单的Activity，但是这种方法只能单纯的启动一个service，service启动之后就会自动干活，做完没有，以及什么时候做完的，Activity都是不知道。在调用stopService就会停止该服务。但我发现这样启动service之后，就算你直接将App finish之后，service还是没有Destory。</p>
+<h3 id="2-圈养（bindService）"><a href="#2-圈养（bindService）" class="headerlink" title="(2)圈养（bindService）"></a>(2)圈养（bindService）</h3><p>在Myservice中，写一个内部类，继承Binder，里面的方法自己写，暴露给Activity，用于控制service。然后申明一个MyBind的变量，在onBind函数中，将其返回出去。<br>在Activity中，深明一个ServiceConnection()，重写两个内部的方法，分别是连接成功时，和断开连接时调用，在onServiceConnection中，获取MyBinder对象。然后使用bindService(intent,ServiceConnection,…),进行绑定开启服务。这种方式可以多个Activity控制同一个Sevice，当最后一个与Service连接的Activity断开的时候，Service才会销毁。</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>在明白了如何开启我们的服务之后，我们再来关心一下service的生命周期，以及service与Activity的联系。</p>
+<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p>1.如果同时使用了startService和bindService，怎样才能停止才服务？<br>2.两个Activity同时绑定了一个Service，当在一个Activity中使用了unbingService，服务会停止吗？<br>3.怎样使一个活动（进程）已经死亡了之后，保证服务会不停止，继续运行？</p>
+<p>新建工程。工程目录结构如下<br><img src="/2017/10/16/Android四大组件之服务/1.png" alt="目录结构" title="目录结构"><br>我们一共需要两个Activity和一个service。</p>
+<p>service文件如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">public class MyService extends Service &#123;</div><div class="line">    private static final String TAG = <span class="string">"MyService"</span>;</div><div class="line">    private MyBinder mybinder;</div><div class="line">    public <span class="function"><span class="title">MyService</span></span>() &#123;</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public IBinder onBind(Intent intent) &#123;</div><div class="line">        <span class="built_in">return</span> mybinder;</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public void <span class="function"><span class="title">onCreate</span></span>() &#123;</div><div class="line">        Log.e(TAG, <span class="string">"onCreate: "</span> );</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public int onStartCommand(Intent intent, int flags, int startId) &#123;</div><div class="line">        Log.e(TAG, <span class="string">"onStartCommand: "</span> );</div><div class="line">        <span class="built_in">return</span> super.onStartCommand(intent, flags, startId);</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public void <span class="function"><span class="title">onDestroy</span></span>() &#123;</div><div class="line">        Log.e(TAG, <span class="string">"onDestroy: "</span> );</div><div class="line">    &#125;</div><div class="line">    class MyBinder extends Binder&#123;</div><div class="line">        public void <span class="function"><span class="title">func1</span></span>()&#123;</div><div class="line">            Log.e(TAG, <span class="string">"func1: "</span>);</div><div class="line">        &#125;</div><div class="line">        public void <span class="function"><span class="title">func2</span></span>()&#123;</div><div class="line">            Log.e(TAG, <span class="string">"func2: "</span> );</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>重写了onCreate，onStartCommand，onDestroy，onBind方法。新建了一个MyBinder内部类，用于绑定后，对Service的操作。</p>
+<p>Activity1的布局文件以及java文件如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    android:layout_width=<span class="string">"match_parent"</span></div><div class="line">    android:layout_height=<span class="string">"match_parent"</span></div><div class="line">    android:gravity=<span class="string">"center_horizontal"</span></div><div class="line">    android:orientation=<span class="string">"vertical"</span></div><div class="line">    android:paddingBottom=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    android:paddingLeft=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    android:paddingRight=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    android:paddingTop=<span class="string">"@dimen/activity_vertical_margin"</span>&gt;</div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/startService"</span></div><div class="line">        android:text=<span class="string">"startService"</span>/&gt;</div><div class="line"></div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/stopService"</span></div><div class="line">        android:text=<span class="string">"stopService"</span>/&gt;</div><div class="line"></div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/bindService"</span></div><div class="line">        android:text=<span class="string">"bindService"</span>/&gt;</div><div class="line"></div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/unbindService"</span></div><div class="line">        android:text=<span class="string">"unbindService"</span>/&gt;</div><div class="line"></div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/changeActivity"</span></div><div class="line">        android:text=<span class="string">"changeActivity"</span>/&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>java:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity  &#123;</div><div class="line">    private MyService.MyBinder binder ;</div><div class="line">    private static final String TAG = <span class="string">"MainActivity"</span>;</div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        Button startButton = (Button) findViewById(R.id.startService);</div><div class="line">        Button stopButton = (Button) findViewById(R.id.stopService);</div><div class="line">        Button bindButton = (Button) findViewById(R.id.bindService);</div><div class="line">        final Button unbindButton = (Button) findViewById(R.id.unbindService);</div><div class="line">        Button changeActivity = (Button) findViewById(R.id.changeActivity);</div><div class="line"></div><div class="line">        final ServiceConnection connection = new <span class="function"><span class="title">ServiceConnection</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onServiceConnected(ComponentName componentName, IBinder iBinder) &#123;</div><div class="line">                Log.e(TAG, <span class="string">"onServiceConnected: "</span> );</div><div class="line">                binder = (MyService.MyBinder) iBinder;</div><div class="line">            &#125;</div><div class="line">            @Override</div><div class="line">            public void onServiceDisconnected(ComponentName componentName) &#123;</div><div class="line">                binder.func1();</div><div class="line">                binder.func2();</div><div class="line">                Log.e(TAG, <span class="string">"onServiceDisconnected: "</span> );</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        startButton.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                Intent intent = new Intent(MainActivity.this,MyService.class);</div><div class="line">                startService(intent);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        stopButton.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                Intent intent = new Intent(MainActivity.this,MyService.class);</div><div class="line">                stopService(intent);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        bindButton.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                Intent intent = new Intent(MainActivity.this,MyService.class);</div><div class="line">                bindService(intent,connection, Context.BIND_AUTO_CREATE);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        unbindButton.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                unbindService(connection);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        changeActivity.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                Intent intent = new Intent(MainActivity.this,MainActivity2.class);</div><div class="line">                startActivity(intent);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    protected void <span class="function"><span class="title">onDestroy</span></span>() &#123;</div><div class="line">        Log.e(TAG, <span class="string">"onDestroy: "</span> );</div><div class="line">        super.onDestroy();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Activity2的布局文件以及java文件如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</div><div class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    android:orientation=<span class="string">"vertical"</span></div><div class="line">    android:layout_width=<span class="string">"match_parent"</span></div><div class="line">    android:layout_height=<span class="string">"match_parent"</span>&gt;</div><div class="line"></div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/M2_bindService"</span></div><div class="line">        android:text=<span class="string">"M2_bindService"</span>/&gt;</div><div class="line"></div><div class="line">    &lt;Button</div><div class="line">        android:layout_width=<span class="string">"match_parent"</span></div><div class="line">        android:layout_height=<span class="string">"wrap_content"</span></div><div class="line">        android:id=<span class="string">"@+id/M2_unbindService"</span></div><div class="line">        android:text=<span class="string">"M2_unbindService"</span>/&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>java:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public class MainActivity2 extends AppCompatActivity &#123;</div><div class="line">    private static final String TAG = <span class="string">"MainActivity2"</span>;</div><div class="line">    MyService.MyBinder binder;</div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main2);</div><div class="line"></div><div class="line">        final Button <span class="built_in">bind</span> = (Button) findViewById(R.id.M2_bindService);</div><div class="line">        final Button unbind = (Button) findViewById(R.id.M2_unbindService);</div><div class="line"></div><div class="line">        final ServiceConnection connection = new <span class="function"><span class="title">ServiceConnection</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onServiceConnected(ComponentName componentName, IBinder iBinder) &#123;</div><div class="line">                Log.e(TAG, <span class="string">"onServiceConnected: "</span> );</div><div class="line">                binder = (MyService.MyBinder) iBinder;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void onServiceDisconnected(ComponentName componentName) &#123;</div><div class="line">                Log.e(TAG, <span class="string">"onServiceDisconnected: "</span> );</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        bind.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                Intent intent = new Intent(MainActivity2.this,MyService.class);</div><div class="line">                bindService(intent,connection,BIND_AUTO_CREATE);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        unbind.setOnClickListener(new View.<span class="function"><span class="title">OnClickListener</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                unbindService(connection);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<img src="/2017/10/16/Android四大组件之服务/2.png" alt="button顺序1" title="button顺序1">
+<img src="/2017/10/16/Android四大组件之服务/3.png" alt="button顺序2" title="button顺序2">
+<p>测试1：同时使用startService和bindService<br>点击顺序：1324和1342<br>输出结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">E/MyService: onCreate: </div><div class="line">E/MyService: onStartCommand: </div><div class="line">E/MyService: onDestroy:</div></pre></td></tr></table></figure></p>
+<p>结论：如果同时使用startService和bindService，则需要同时使用stopService和unbindService才能结束掉服务。</p>
+<p>测试2：两个Activity同时绑定了一个Service<br>点击顺序：356784<br>输出结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MyService: onCreate: </div><div class="line">MyService: onDestroy:</div></pre></td></tr></table></figure></p>
+<p>结论：当两个Activity同时绑定了一个Service时，一个断开，只要还有一个Activity还与Service相连，那么就不会Service就不会死掉。<br>有趣的是，如果我们点击顺序为：3568 和38<br>输出结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">E/MyService: onCreate: </div><div class="line">E/MainActivity: onDestroy: </div><div class="line">E/ActivityThread: Error....</div><div class="line">E/MyService: onDestroy:</div></pre></td></tr></table></figure></p>
+<p>那么程度会报错，而且程序中，Activity的Destroy在服务的Destroy之前就已经结束了，导致了报错。</p>
+<p>测试3：怎样使一个活动（进程）已经死亡了之后，保证服务会不停止<br>点击顺序：18 然后重新开启该应用， 2<br>输出结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">E/MyService: onCreate: </div><div class="line">E/MyService: onStartCommand: </div><div class="line">E/MainActivity: onDestroy: </div><div class="line">E/MyService: onDestroy:</div></pre></td></tr></table></figure></p>
+<p>可以看到，在程序已经onDestroy了之后，服务并没有断掉，所以说，使用startService的方式启动的服务，已经与本Activity无关了。在Activity已经死掉的情况之下，还是能继续运行。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>如果文章对您有用请随意打赏，谢谢支持！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/111.png" alt="JokerHerry WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/222.png" alt="JokerHerry Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android基础/" rel="tag"># android基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/14/android-cardView/" rel="next" title="android-cardView的使用">
+                <i class="fa fa-chevron-left"></i> android-cardView的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div id="sidebar-dimmer"></div>
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/0.jpg"
+               alt="JokerHerry" />
+          <p class="site-author-name" itemprop="name">JokerHerry</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/your-user-name" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/your-user-name" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-link"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com" title="百度" target="_blank">百度</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#接下来看一下如何使用"><span class="nav-number">1.</span> <span class="nav-text">接下来看一下如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、构建服务-service"><span class="nav-number">1.1.</span> <span class="nav-text">1、构建服务 service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、启动服务-service"><span class="nav-number">1.2.</span> <span class="nav-text">2、启动服务 service</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-散养（startService）"><span class="nav-number">1.2.1.</span> <span class="nav-text">(1)散养（startService）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-圈养（bindService）"><span class="nav-number">1.2.2.</span> <span class="nav-text">(2)圈养（bindService）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number">2.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题："><span class="nav-number">2.1.</span> <span class="nav-text">问题：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JokerHerry</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
