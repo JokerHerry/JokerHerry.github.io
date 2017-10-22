@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/10/21/sqlite%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</loc>
+    <lastmod>2017-10-22T00:07:10.053Z</lastmod>
+    <data>
+        <display>
+        <title>sqlite基本操作</title>
+        <pubTime>2017-10-21T12:29:33.000Z</pubTime>
+        
+        <tag>sql</tag>
+         
+         
+           
+             
+              <breadCrumb title="sql语句" url="http://yoursite.com/categories/sql%E8%AF%AD%E5%8F%A5/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/10/20/android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</loc>
     <lastmod>2017-10-20T06:40:43.033Z</lastmod>
     <data>

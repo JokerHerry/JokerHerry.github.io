@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android,okhttp,懒人专用," />
+  <meta name="keywords" content="sql," />
 
 
 
@@ -93,20 +93,17 @@
 
 
 
-<meta name="description" content="首先要想进行android开发的话，网络交互肯定是免不了的。之前一直用的是Android-Async-Http,但后来听说因为android把HttpClient给取消掉了，于是基于HttpClient创建的android-async-http也就失去了继续留下去的必要，所以作者也已经停止了该项目的维护，Android5.0之后便不在推荐在项目中进行使用。所以也是有必要好好学习一下Okhttp了。">
-<meta name="keywords" content="android,okhttp,懒人专用">
+<meta name="description" content="对数据库操作的一个梳理。">
+<meta name="keywords" content="sql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="复制就能用系列之Okhttp">
-<meta property="og:url" content="http://yoursite.com/2017/07/13/android1/index.html">
+<meta property="og:title" content="sqlite基本操作">
+<meta property="og:url" content="http://yoursite.com/2017/10/21/sqlite基本操作/index.html">
 <meta property="og:site_name" content="DD993">
-<meta property="og:description" content="首先要想进行android开发的话，网络交互肯定是免不了的。之前一直用的是Android-Async-Http,但后来听说因为android把HttpClient给取消掉了，于是基于HttpClient创建的android-async-http也就失去了继续留下去的必要，所以作者也已经停止了该项目的维护，Android5.0之后便不在推荐在项目中进行使用。所以也是有必要好好学习一下Okhttp了。">
-<meta property="og:image" content="http://yoursite.com/2017/07/13/android1/1.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/13/android1/2.png">
-<meta property="og:updated_time" content="2017-09-13T15:25:30.877Z">
+<meta property="og:description" content="对数据库操作的一个梳理。">
+<meta property="og:updated_time" content="2017-10-22T00:07:10.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="复制就能用系列之Okhttp">
-<meta name="twitter:description" content="首先要想进行android开发的话，网络交互肯定是免不了的。之前一直用的是Android-Async-Http,但后来听说因为android把HttpClient给取消掉了，于是基于HttpClient创建的android-async-http也就失去了继续留下去的必要，所以作者也已经停止了该项目的维护，Android5.0之后便不在推荐在项目中进行使用。所以也是有必要好好学习一下Okhttp了。">
-<meta name="twitter:image" content="http://yoursite.com/2017/07/13/android1/1.png">
+<meta name="twitter:title" content="sqlite基本操作">
+<meta name="twitter:description" content="对数据库操作的一个梳理。">
 
 
 
@@ -134,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/13/android1/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/21/sqlite基本操作/"/>
 
 
 
 
 
-  <title>复制就能用系列之Okhttp | DD993</title>
+  <title>sqlite基本操作 | DD993</title>
   
 
 
@@ -289,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/13/android1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/sqlite基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JokerHerry">
@@ -306,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">复制就能用系列之Okhttp</h1>
+          <h1 class="post-title" itemprop="name headline">sqlite基本操作</h1>
         
 
         <div class="post-meta">
@@ -318,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T18:54:26+08:00">
-                2017-07-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T20:29:33+08:00">
+                2017-10-21
               </time>
             
 
@@ -341,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android学习之路/" itemprop="url" rel="index">
-                    <span itemprop="name">android学习之路</span>
+                  <a href="/categories/sql语句/" itemprop="url" rel="index">
+                    <span itemprop="name">sql语句</span>
                   </a>
                 </span>
 
@@ -375,99 +372,82 @@
       
 
       
-        <p>首先要想进行android开发的话，网络交互肯定是免不了的。之前一直用的是<a href="https://github.com/loopj/android-async-http" target="_blank" rel="external">Android-Async-Http</a>,但后来听说因为android把HttpClient给取消掉了，于是基于HttpClient创建的android-async-http也就失去了继续留下去的必要，所以作者也已经停止了该项目的维护，Android5.0之后便不在推荐在项目中进行使用。所以也是有必要好好学习一下Okhttp了。<br>(废话很多，看来以后还是要改改啊。😅)<br><a id="more"></a>    </p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>有两种引入的方式，一个是引入Jar包，直接本地使用，第二种方式在Gradle中，直接配置。</p>
-<h3 id="使用Jar包"><a href="#使用Jar包" class="headerlink" title="使用Jar包"></a>使用Jar包</h3><p>略</p>
-<h3 id="Gradle中使用"><a href="#Gradle中使用" class="headerlink" title="Gradle中使用"></a>Gradle中使用</h3><p>使用androidStudio的用户可以直接使用Gradle中引入okHttp。</p>
-<p>1.在okHttp的github上面,找到 compile ‘com.squareup.okhttp3:okhttp:3.8.1’ 并复制。<br><img src="/2017/07/13/android1/1.png" alt="找到使用的Gradle代码" title="找到使用的Gradle代码"><br>2.在Gradle中进行配置。将刚才复制的代码复制到如图所示的地方，然后点击同步，同步完了之后就会自动引用了。<br><img src="/2017/07/13/android1/2.png" alt="gradle中的配置" title="gradle中的配置"></p>
-<h2 id="okHttp的基本使用"><a href="#okHttp的基本使用" class="headerlink" title="okHttp的基本使用"></a>okHttp的基本使用</h2><h3 id="git请求"><a href="#git请求" class="headerlink" title="git请求"></a>git请求</h3><p>一共可以分为4各部分进行来进行使用。</p>
-<pre><code class="bash"><span class="comment">#1.首先建立一个OkHttpClient对象</span>
-OkHttpClient okHttpClient = new OkHttpClient();
-<span class="comment">#2.配置我们的request</span>
-Request.Builder builder = new Request.Builder();
-Request request = builder
-                .get()
-                .url(<span class="string">"http://192.168.1.4:8000"</span>)
-                .build();
-<span class="comment">#3.申明执行该任务的对象</span>
-Call call = okHttpClient.newCall(request);
-<span class="comment">#4.开始执行</span>
-call.enqueue(new <span class="function"><span class="title">Callback</span></span>() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(<span class="string">"get请求失败"</span>);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.e(<span class="string">"get请求成功"</span>);
-                String str = response.body().string();
-                Log.e(str);
-            }
-        });
-</code></pre>
-<h3 id="post请求"><a href="#post请求" class="headerlink" title="post请求"></a>post请求</h3><p>传递key-value对可以使用提交表单的方式</p>
-<pre><code class="bash">//1.首先创建一个表单
-FormBody.Builder formBuilder = new FormBody.Builder();
-formBuilder.add(<span class="string">"key"</span>,<span class="string">"value"</span>);
-//2.通过表单创建自己的requestBody
-RequestBody requestBody = formBuilder.build();
-//3.创建自己的request。将requestBody作为参数传进去，也就是我们的key-value对
-Request.Builder builder = new Request.Builder();
-Request request = builder
-        .post(requestBody)
-        .url(url)
-        .build();
-//4.使用call方法,执行语句
-Call call = okHttpClient.newCall(request);
-call.enqueue(new <span class="function"><span class="title">Callback</span></span>() {
-    @Override
-    public void onFailure(Call call, IOException e) {
-        Log.e(TAG, <span class="string">"onFailure: "</span> );
-    }
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        String str = response.body().string();
-        Log.e(TAG, <span class="string">"onResponse: "</span>+str.toString() );
-    }
-});
-</code></pre>
-<h3 id="upload一张图片"><a href="#upload一张图片" class="headerlink" title="upload一张图片"></a>upload一张图片</h3><p>其实也是通过post的方法实现上传，只不过是把我们的参数换成了文件，而不是key-value对</p>
-<pre><code class="bash">public static void upLoadFile(String url,String filepath){
-//检测传来的文件是否存在
-    File file = new File(filepath);
-    <span class="keyword">if</span>(!file.exists()){
-        Log.e(TAG, <span class="string">"upLoadFile: 文件不存在"</span>);
-        <span class="built_in">return</span>;
-    }
-    RequestBody requestBodyfile = RequestBody.create(MediaType.parse(<span class="string">"application/octet-stream"</span>),file);
-    //构建一个文件类型的requestBody
-    MultipartBody.Builder mulitiparBuilder = new MultipartBody.Builder();
-    //这里也可以通过键值对的方式实现添加参数
-    RequestBody requestBody = mulitiparBuilder
-            .setType(MultipartBody.FORM)
-            //addFormDataPart(用于服务器识别的标识，服务器接收后文件的名字，文件-requestBody)
-            .addFormDataPart(<span class="string">"mPhoto"</span>, <span class="string">"photo.jpg"</span>, requestBodyfile)
-            .build();
-
-    Request.Builder builder = new Request.Builder();
-    Request request = builder.url(url)
-        .post(requestBody)
-        .build();
-
-    Call call =  new OkHttpClient().newCall(request);
-    call.enqueue(new <span class="function"><span class="title">Callback</span></span>() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-            Log.e(TAG, <span class="string">"onFailure: 失败"</span>);
-        }
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            Log.e(TAG, <span class="string">"onResponse: 成功"</span> );
-        }
-    });
-}
-</code></pre>
+        <p>对数据库操作的一个梳理。<br><a id="more"></a></p>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><blockquote>
+<p>.database    查看当前的数据库文件</p>
+</blockquote>
+<h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><blockquote>
+<p>sqlite3 testDB.db</p>
+</blockquote>
+<h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><blockquote>
+<p>.table    查看当前数据库文件的表</p>
+<p>.schema [表名]    查看数据库中某一个表的定义</p>
+</blockquote>
+<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><blockquote>
+<p>create table <a href="[列名] [类型] [约束条件],
+  [列名] [类型] [约束条件]">表名</a>;</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">create table student(</div><div class="line">	id int not null primary key),</div><div class="line">	name varchar(20) not null,</div><div class="line">	age int not null,</div><div class="line">	address varchar(20) not null</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<h2 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h2><blockquote>
+<p>drop table [表名];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drop table student;</div></pre></td></tr></table></figure></p>
+<h2 id="清空表"><a href="#清空表" class="headerlink" title="清空表"></a>清空表</h2><blockquote>
+<p>truncate table [表名];</p>
+<p>truncate table student;</p>
+</blockquote>
+<h1 id="对表中数据的增删查改"><a href="#对表中数据的增删查改" class="headerlink" title="对表中数据的增删查改"></a>对表中数据的增删查改</h1><h2 id="增"><a href="#增" class="headerlink" title="增"></a>增</h2><blockquote>
+<p>insert into [表名] ([字段名1],[字段名2]…)<br>    values ([常量1],[常量2]…);<br>insert into [表名] ([字段名1],[字段名2]…)<br>    select [查询语句<br>];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">insert into student (id,name,age,address)</div><div class="line">	values (1,&quot;hzq&quot;,22,&quot;china&quot;);</div><div class="line">insert into student (id,name,age,address)</div><div class="line">	select (id,name,age,address) from student_T;</div></pre></td></tr></table></figure></p>
+<h2 id="删"><a href="#删" class="headerlink" title="删"></a>删</h2><blockquote>
+<p>delete from [table] [where表达式]</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//删除ID为1的学生信息</div><div class="line">delete from student where id=1;</div></pre></td></tr></table></figure></p>
+<h2 id="查"><a href="#查" class="headerlink" title="查"></a>查</h2><blockquote>
+<p>select [ALL|DISTINCT] [目标列1…]<br>from [表名]<br>    [where表达式]<br>    [order by 表达式]<br>    [limit 表达式];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示来自中国的id最大的前4位</div><div class="line">select name from student</div><div class="line">	where address=&quot;china&quot;</div><div class="line">	order by id DESC</div><div class="line">	limit 4;</div></pre></td></tr></table></figure></p>
+<h2 id="改"><a href="#改" class="headerlink" title="改"></a>改</h2><blockquote>
+<p>update [表名] set [列名]=[需要修改成为的值，或者表达式]     [where表达式];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update student set age=18 where id=1;</div></pre></td></tr></table></figure></p>
+<h1 id="约束条件："><a href="#约束条件：" class="headerlink" title="约束条件："></a>约束条件：</h1><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><blockquote>
+<p>指定条件。<br>同时可以通过关系运算符和逻辑运算符”&gt;,&lt;,=,like,not”</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//查询student表中，id=1的结果；</div><div class="line">select * from student where id=1;</div><div class="line">//查询student表中，id大于10小于100的结果。</div><div class="line">select * from student where id&gt;10 and id &lt; 100;</div></pre></td></tr></table></figure></p>
+<h2 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h2><blockquote>
+<p>按照一定的顺序显示结果。支持升序和降序。<br>order by [列名] ASC;     //升序<br>order by [列名] DESC;    //降序</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//查询所有的学生，并按照降序排序</div><div class="line">select * from student order by id DESC;</div></pre></td></tr></table></figure></p>
+<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><blockquote>
+<p>限制输出结果的数量。</p>
+<p>limit [int] [offset [int]];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//查询student表，从第2(1+1)个数据开始，只显示3个。</div><div class="line">select * from student limit 3 offset 1;</div><div class="line">注意：数据库中的表的下标，是从0开始。</div></pre></td></tr></table></figure></p>
+<h2 id="like："><a href="#like：" class="headerlink" title="like："></a>like：</h2><blockquote>
+<p>通过通配符来匹配达标的项。</p>
+<p>可以使用的通配符有两个：</p>
+<ul>
+<li>百分号：% </li>
+<li>下划线：_</li>
+</ul>
+<p>%表示零个或者多个字符，_表示一个数字或字符。</p>
+</blockquote>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">where salary like &quot;200%&quot;    找到200开头的结果</div><div class="line">where salary like &quot;%200%&quot;   找到含有200的结果</div><div class="line">where salary like &quot;_00%&quot;    找到第二位和第三位都是0的结果</div><div class="line">where salary like &quot;2_%_%&quot;   找到以2开头，并且长度至少有3位的结果</div><div class="line">where salary like &quot;2%3&quot;     找到2开头，3结尾的结果</div></pre></td></tr></table></figure></p>
+<h2 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h2><blockquote>
+<p>与select一起使用，用来查找出不重复的结果。</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//看学生都是来自哪几个地方</div><div class="line">select distinct address from student</div></pre></td></tr></table></figure></p>
+<h2 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h2><blockquote>
+<p>与select连用，将相同的数据进行分组。</p>
+<p>注意：group by要放在where之后，order by之前。</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//显示出每个学生的名字，以及他的总分</div><div class="line">select name,SUM(grade) from student group by name;</div></pre></td></tr></table></figure></p>
+<h2 id="having"><a href="#having" class="headerlink" title="having"></a>having</h2><blockquote>
+<p>指定过滤条件，  与group by连用。</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//输出age次数出现了两次以上的结果</div><div class="line">select name,age from student group by age having COUNT(age)&gt;=2;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -518,11 +498,7 @@ call.enqueue(new <span class="function"><span class="title">Callback</span></spa
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
-          
-            <a href="/tags/okhttp/" rel="tag"># okhttp</a>
-          
-            <a href="/tags/懒人专用/" rel="tag"># 懒人专用</a>
+            <a href="/tags/sql/" rel="tag"># sql</a>
           
         </div>
       
@@ -535,8 +511,8 @@ call.enqueue(new <span class="function"><span class="title">Callback</span></spa
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/12/first/" rel="next" title="Hexo搭建自己的博客">
-                <i class="fa fa-chevron-left"></i> Hexo搭建自己的博客
+              <a href="/2017/10/20/android消息处理机制/" rel="next" title="android消息处理机制">
+                <i class="fa fa-chevron-left"></i> android消息处理机制
               </a>
             
           </div>
@@ -544,10 +520,6 @@ call.enqueue(new <span class="function"><span class="title">Callback</span></spa
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/17/android2/" rel="prev" title="github项目学习：Context-Menu.Android">
-                github项目学习：Context-Menu.Android <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -729,7 +701,7 @@ call.enqueue(new <span class="function"><span class="title">Callback</span></spa
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Jar包"><span class="nav-number">1.1.</span> <span class="nav-text">使用Jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle中使用"><span class="nav-number">1.2.</span> <span class="nav-text">Gradle中使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#okHttp的基本使用"><span class="nav-number">2.</span> <span class="nav-text">okHttp的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git请求"><span class="nav-number">2.1.</span> <span class="nav-text">git请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post请求"><span class="nav-number">2.2.</span> <span class="nav-text">post请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#upload一张图片"><span class="nav-number">2.3.</span> <span class="nav-text">upload一张图片</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">1.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建数据库"><span class="nav-number">1.1.</span> <span class="nav-text">创建数据库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表"><span class="nav-number">2.</span> <span class="nav-text">表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建表"><span class="nav-number">2.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除表"><span class="nav-number">2.2.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清空表"><span class="nav-number">2.3.</span> <span class="nav-text">清空表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对表中数据的增删查改"><span class="nav-number">3.</span> <span class="nav-text">对表中数据的增删查改</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#增"><span class="nav-number">3.1.</span> <span class="nav-text">增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删"><span class="nav-number">3.2.</span> <span class="nav-text">删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查"><span class="nav-number">3.3.</span> <span class="nav-text">查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改"><span class="nav-number">3.4.</span> <span class="nav-text">改</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#约束条件："><span class="nav-number">4.</span> <span class="nav-text">约束条件：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#where"><span class="nav-number">4.1.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#order-by"><span class="nav-number">4.2.</span> <span class="nav-text">order by</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#limit"><span class="nav-number">4.3.</span> <span class="nav-text">limit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#like："><span class="nav-number">4.4.</span> <span class="nav-text">like：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#distinct"><span class="nav-number">4.5.</span> <span class="nav-text">distinct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-by"><span class="nav-number">4.6.</span> <span class="nav-text">group by</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#having"><span class="nav-number">4.7.</span> <span class="nav-text">having</span></a></li></ol></li></ol></div>
             
 
           </div>

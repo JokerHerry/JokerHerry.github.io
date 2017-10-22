@@ -3,6 +3,102 @@
   
     
     <entry>
+      <title><![CDATA[sqlite基本操作]]></title>
+      <url>/2017/10/21/sqlite%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<p>对数据库操作的一个梳理。<br><a id="more"></a></p>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><blockquote>
+<p>.database    查看当前的数据库文件</p>
+</blockquote>
+<h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><blockquote>
+<p>sqlite3 testDB.db</p>
+</blockquote>
+<h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><blockquote>
+<p>.table    查看当前数据库文件的表</p>
+<p>.schema [表名]    查看数据库中某一个表的定义</p>
+</blockquote>
+<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><blockquote>
+<p>create table <a href="[列名] [类型] [约束条件],
+  [列名] [类型] [约束条件]">表名</a>;</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">create table student(</div><div class="line">	id int not null primary key),</div><div class="line">	name varchar(20) not null,</div><div class="line">	age int not null,</div><div class="line">	address varchar(20) not null</div><div class="line">);</div></pre></td></tr></table></figure></p>
+<h2 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h2><blockquote>
+<p>drop table [表名];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drop table student;</div></pre></td></tr></table></figure></p>
+<h2 id="清空表"><a href="#清空表" class="headerlink" title="清空表"></a>清空表</h2><blockquote>
+<p>truncate table [表名];</p>
+<p>truncate table student;</p>
+</blockquote>
+<h1 id="对表中数据的增删查改"><a href="#对表中数据的增删查改" class="headerlink" title="对表中数据的增删查改"></a>对表中数据的增删查改</h1><h2 id="增"><a href="#增" class="headerlink" title="增"></a>增</h2><blockquote>
+<p>insert into [表名] ([字段名1],[字段名2]…)<br>    values ([常量1],[常量2]…);<br>insert into [表名] ([字段名1],[字段名2]…)<br>    select [查询语句<br>];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">insert into student (id,name,age,address)</div><div class="line">	values (1,&quot;hzq&quot;,22,&quot;china&quot;);</div><div class="line">insert into student (id,name,age,address)</div><div class="line">	select (id,name,age,address) from student_T;</div></pre></td></tr></table></figure></p>
+<h2 id="删"><a href="#删" class="headerlink" title="删"></a>删</h2><blockquote>
+<p>delete from [table] [where表达式]</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//删除ID为1的学生信息</div><div class="line">delete from student where id=1;</div></pre></td></tr></table></figure></p>
+<h2 id="查"><a href="#查" class="headerlink" title="查"></a>查</h2><blockquote>
+<p>select [ALL|DISTINCT] [目标列1…]<br>from [表名]<br>    [where表达式]<br>    [order by 表达式]<br>    [limit 表达式];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示来自中国的id最大的前4位</div><div class="line">select name from student</div><div class="line">	where address=&quot;china&quot;</div><div class="line">	order by id DESC</div><div class="line">	limit 4;</div></pre></td></tr></table></figure></p>
+<h2 id="改"><a href="#改" class="headerlink" title="改"></a>改</h2><blockquote>
+<p>update [表名] set [列名]=[需要修改成为的值，或者表达式]     [where表达式];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update student set age=18 where id=1;</div></pre></td></tr></table></figure></p>
+<h1 id="约束条件："><a href="#约束条件：" class="headerlink" title="约束条件："></a>约束条件：</h1><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><blockquote>
+<p>指定条件。<br>同时可以通过关系运算符和逻辑运算符”&gt;,&lt;,=,like,not”</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//查询student表中，id=1的结果；</div><div class="line">select * from student where id=1;</div><div class="line">//查询student表中，id大于10小于100的结果。</div><div class="line">select * from student where id&gt;10 and id &lt; 100;</div></pre></td></tr></table></figure></p>
+<h2 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h2><blockquote>
+<p>按照一定的顺序显示结果。支持升序和降序。<br>order by [列名] ASC;     //升序<br>order by [列名] DESC;    //降序</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//查询所有的学生，并按照降序排序</div><div class="line">select * from student order by id DESC;</div></pre></td></tr></table></figure></p>
+<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><blockquote>
+<p>限制输出结果的数量。</p>
+<p>limit [int] [offset [int]];</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//查询student表，从第2(1+1)个数据开始，只显示3个。</div><div class="line">select * from student limit 3 offset 1;</div><div class="line">注意：数据库中的表的下标，是从0开始。</div></pre></td></tr></table></figure></p>
+<h2 id="like："><a href="#like：" class="headerlink" title="like："></a>like：</h2><blockquote>
+<p>通过通配符来匹配达标的项。</p>
+<p>可以使用的通配符有两个：</p>
+<ul>
+<li>百分号：% </li>
+<li>下划线：_</li>
+</ul>
+<p>%表示零个或者多个字符，_表示一个数字或字符。</p>
+</blockquote>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">where salary like &quot;200%&quot;    找到200开头的结果</div><div class="line">where salary like &quot;%200%&quot;   找到含有200的结果</div><div class="line">where salary like &quot;_00%&quot;    找到第二位和第三位都是0的结果</div><div class="line">where salary like &quot;2_%_%&quot;   找到以2开头，并且长度至少有3位的结果</div><div class="line">where salary like &quot;2%3&quot;     找到2开头，3结尾的结果</div></pre></td></tr></table></figure></p>
+<h2 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h2><blockquote>
+<p>与select一起使用，用来查找出不重复的结果。</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//看学生都是来自哪几个地方</div><div class="line">select distinct address from student</div></pre></td></tr></table></figure></p>
+<h2 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h2><blockquote>
+<p>与select连用，将相同的数据进行分组。</p>
+<p>注意：group by要放在where之后，order by之前。</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//显示出每个学生的名字，以及他的总分</div><div class="line">select name,SUM(grade) from student group by name;</div></pre></td></tr></table></figure></p>
+<h2 id="having"><a href="#having" class="headerlink" title="having"></a>having</h2><blockquote>
+<p>指定过滤条件，  与group by连用。</p>
+</blockquote>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//输出age次数出现了两次以上的结果</div><div class="line">select name,age from student group by age having COUNT(age)&gt;=2;</div></pre></td></tr></table></figure></p>
+]]></content>
+      
+        <categories>
+            
+            <category> sql语句 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> sql </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[android消息处理机制]]></title>
       <url>/2017/10/20/android%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</url>
       <content type="html"><![CDATA[<h1 id="消息机制的理解"><a href="#消息机制的理解" class="headerlink" title="消息机制的理解"></a>消息机制的理解</h1><p>说到消息处理，我们首先想到的就是Hanlder，他也就是我们常说的Android异步消息处理机制。使用它，我们可以很轻易的在主线程和子线程之间进行切换。所以，也常用来更新UI。（因为UI只能在主线程里面进行更改）<br><a id="more"></a></p>
