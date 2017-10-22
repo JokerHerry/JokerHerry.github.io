@@ -372,57 +372,14 @@
 
       
         
-          
-            <p>单例模式<br>定义：<br>单例模式确保该类只能有一个创建的实例，保证全局的唯一性，可以直接被访问，但是不能被创建。<br>特点:</p>
-<ul>
-<li>只有一个实例，唯一性</li>
-<li>单例类不提供创建方法，只能自己创建唯一的实例</li>
-<li>提供公开的方法，向所有对象提供这一个实例</li>
-</ul>
-<p>通用理解：<br>创建：<br>public class SingleObj{<br>    //创建 自己 对象<br>    private static SingleObj instance = new SingleObj();<br>    //构造函数为private,所以只能自己实例化<br>    private SingleObj(){}<br>    //公开实例的唯一对象<br>    public static SingleObj getInstance(){<br>        return instance;<br>    }<br>    public void showMessage(){<br>        System.out.println(“hello world!”);<br>    }<br>}</p>
-<p>使用：<br>//错误方法<br>//因为构造函数是不可见的<br>//SingleObj object = SingleObj.getInstance();</p>
-<p>//正确获取方法<br>SingleObj object = SingleObject.getInstance();</p>
-<p>//显示消息<br>object.showMessage();</p>
-<p>常用6种单例模式：</p>
-<ol>
-<li>懒汉式，线程不安全<br>既然是懒汉，所以在不调用他之前，绝不创建自己对象，只有使用他的时候，才会创建对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class SingleTon&#123;</div><div class="line">    private static SingleTon instance;</div><div class="line">    private SingleTon()&#123;&#125;;</div><div class="line">    </div><div class="line">    public static SingleTon getInstance()&#123;</div><div class="line">        if(instance == null)&#123;</div><div class="line">            instance = new SingleTon();</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>简单，方便。但是有一个致命的缺点，就是在多线程的情况之下，当多个线程同时调用getInstance的时候，很可能创建出多个实例。所以在多线程的情况之下，不能成为一个单例模式。</p>
-<ol>
-<li>懒汉式，线程安全<br>既然懒汉式在多线程不安全，那么我们只需要给他加一个锁，保证单线运行就行了撒。所以我们直接给getInstance添加同步关键字(synchronized)；<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class SingleTon&#123;</div><div class="line">    private static SingleTon instance;</div><div class="line">    private SingleTon()&#123;&#125;;</div><div class="line">    </div><div class="line">    public static synchronized SingleTon getInstance()&#123;</div><div class="line">        if(instance == null)&#123;</div><div class="line">            instance = new SingleTon();</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>保留了懒汉式的简单、方便还有懒汉模式，而且有保证的线程安全。但因为加了锁，导致效率下降，因为同一时间，只能有一个线程运行getInstance()；</p>
-<ol>
-<li>饿汉式<br>既然是饿汉，所以还不择食。与其担心多线程时创建多个实例，不如首先实例好，需要的时候，提供给你就好了。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class SingleTon&#123;</div><div class="line">    private static SingleTon instance = new SingleTon();</div><div class="line">    private SingleTon()&#123;&#125;;</div><div class="line">    public static SingleTon getInstance()&#123;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>简单方便，解决了多线程的问题，没有加锁，提到了运行效率。<br>缺点：<br>类加载时候就已经初始化了，内存的浪费。<br>如果创建该实例的时候，需要依赖其他信息或者参数的时候，就做不到。</p>
-<ol>
-<li>双重检验锁<br>思路来源于懒汉式，既然给getInstance加锁导致效率下降，那么我们在创建的时候加锁呢？<br>即两次检验单例是否已经存在。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class SingleTon&#123;</div><div class="line">    private static SingleTon instance;</div><div class="line">    private SingleTon()&#123;&#125;;</div><div class="line">    </div><div class="line">    public static synchronized SingleTon getInstance()&#123;</div><div class="line">        if(instance == null)&#123;</div><div class="line">            synchronized (Singleton.class) &#123;</div><div class="line">                if (instance == null) &#123;             </div><div class="line">                    instance = new Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这段代码看起来很完美，很可惜，它是有问题。主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情:</p>
-<p>1.给 instance 分配内存</p>
-<p>2.调用 Singleton 的构造函数来初始化成员变量</p>
-<p>3.将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）。</p>
-<p>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
-<p>复杂，且存在隐含问题。</p>
-<ol>
-<li>静态内部类<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class SingleTon&#123;</div><div class="line">    private static class SingleTonHolder&#123;</div><div class="line">        private static final SingleTon instance = new SingleTon();</div><div class="line">    &#125;</div><div class="line">    private SingleTon()&#123;&#125;</div><div class="line">    public static final SingleTon getInstance()&#123;</div><div class="line">        return SingleTonHolder.instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>使用了JVM本身机制保证了线程的安全，<br>因为静态单例对象并不是成员变量，所以在加载类的时候，不会实例化。<br>第一次调用getInstance的时候，加载内部类SingleTonHolder。实现实例化<br>既是懒汉，又有Java虚拟机保证线程安全。</p>
-<ol>
-<li>Enum枚举<br>神技，简单，粗暴。而且各种天生buff。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum EasySingleTon&#123;</div><div class="line">    INSTANCE:</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>我们可以通过EasySingleton.INSTANCE来访问实例，这比调用getInstance()方法简单多了。创建枚举默认就是线程安全的，所以不需要担心double checked locking，而且还能防止反序列化导致重新创建新的对象。</p>
-<p>总结<br>总结来说，一共有5中，第一种不算。懒汉，饿汉，双重检验，静态内部类，枚举。</p>
-<p>通常情况之下，常用饿汉解决问题。<br>如果要求懒加载，那就用静态内部类。<br>如果涉及反序列化，那就使用枚举。</p>
-
-          
+          <p>单例模式<br>定义：<br>单例模式确保该类只能有一个创建的实例，保证全局的唯一性，可以直接被访问，但是不能被创建。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/22/设计模式-创建型模式-单例模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
