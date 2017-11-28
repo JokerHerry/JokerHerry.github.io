@@ -1,0 +1,825 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="活动是什么活动就是Activity，Android的四大组件之一。用户看到的界面，以及用户与界面的交互，都是通过活动（Activity）来完成的。所以可以把活动理解为一个与用户交互的界面。 活动基本用法要启动一个活动，那就肯定需要使用到Intent。在使用Intent的基础上，有两种启动方式。 显式启动找准你需要启动的活动，然后实现intent就可以直接启动。Intent intent = new">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android四大组件之活动">
+<meta property="og:url" content="http://yoursite.com/2017/10/31/Android四大组件之活动/index.html">
+<meta property="og:site_name" content="DD993">
+<meta property="og:description" content="活动是什么活动就是Activity，Android的四大组件之一。用户看到的界面，以及用户与界面的交互，都是通过活动（Activity）来完成的。所以可以把活动理解为一个与用户交互的界面。 活动基本用法要启动一个活动，那就肯定需要使用到Intent。在使用Intent的基础上，有两种启动方式。 显式启动找准你需要启动的活动，然后实现intent就可以直接启动。Intent intent = new">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/生命周期.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/Activity_task.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/standard.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/singleTop.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/singleTask1.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/singleTask2.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/singleTask3.png">
+<meta property="og:updated_time" content="2017-10-31T08:27:04.153Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android四大组件之活动">
+<meta name="twitter:description" content="活动是什么活动就是Activity，Android的四大组件之一。用户看到的界面，以及用户与界面的交互，都是通过活动（Activity）来完成的。所以可以把活动理解为一个与用户交互的界面。 活动基本用法要启动一个活动，那就肯定需要使用到Intent。在使用Intent的基础上，有两种启动方式。 显式启动找准你需要启动的活动，然后实现intent就可以直接启动。Intent intent = new">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/31/Android四大组件之活动/生命周期.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/31/Android四大组件之活动/"/>
+
+
+
+
+
+  <title>Android四大组件之活动 | DD993</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">DD993</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">DD993</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-external-link"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/31/Android四大组件之活动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JokerHerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/0.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DD993">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android四大组件之活动</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-31T10:27:58+08:00">
+                2017-10-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="活动是什么"><a href="#活动是什么" class="headerlink" title="活动是什么"></a>活动是什么</h1><p>活动就是Activity，Android的四大组件之一。用户看到的界面，以及用户与界面的交互，都是通过活动（Activity）来完成的。<br>所以可以把活动理解为一个与用户交互的界面。</p>
+<h1 id="活动基本用法"><a href="#活动基本用法" class="headerlink" title="活动基本用法"></a>活动基本用法</h1><p>要启动一个活动，那就肯定需要使用到Intent。在使用Intent的基础上，有两种启动方式。</p>
+<h2 id="显式启动"><a href="#显式启动" class="headerlink" title="显式启动"></a>显式启动</h2><p>找准你需要启动的活动，然后实现intent就可以直接启动。<br>Intent intent = new Intent(this.class,ActivityTow.class);<br>startActivity(intent);</p>
+<h2 id="隐式启动"><a href="#隐式启动" class="headerlink" title="隐式启动"></a>隐式启动</h2><p>采用一种含蓄的方式，在intent中并不说明你需要启动的是那一个活动，而是让系统自己去找。<br>因为很少用到，这里就不说了。</p>
+<h2 id="活动中传递数据"><a href="#活动中传递数据" class="headerlink" title="活动中传递数据"></a>活动中传递数据</h2><p>在使用Intent启动活动的时候，我们可以通过的intent的putExtra方法向下一个活动传递参数。<br>intent.putExtra(name,value);<br>通过键值对的方式，传递参数。<br>新开的活动可以通过getIntent().getStringExtra()等一些重载的函数，获取传递过来的参数。<br>String bili = getIntent().getStringExtra(“bili”);</p>
+<h1 id="活动的生命周期"><a href="#活动的生命周期" class="headerlink" title="活动的生命周期"></a>活动的生命周期</h1><p>“咚咚咚，敲黑板，重点来了。”<br><img src="/2017/10/31/Android四大组件之活动/生命周期.png" alt="生命周期" title="生命周期"><br>生命周期一共有7个回掉函数，表示整个活动从生成到死亡，以及中间的暂停状态中，一共经历了那些生命函数。<br>一个普通的生命周期为：<br>onCreate()-&gt;onStart()-&gt;onResume()-&gt;onPause()-&gt;onStop()-&gt;onDestory()<br>一共6个部分，还有一个onRestart()在活动暂停后又被唤醒的时候，调用。</p>
+<h2 id="下面是对每个生命周期函数详细说明："><a href="#下面是对每个生命周期函数详细说明：" class="headerlink" title="下面是对每个生命周期函数详细说明："></a>下面是对每个生命周期函数详细说明：</h2><ol>
+<li><p><strong>onCreate()</strong>：在一个活动初次创建的时候调用，作为启动活动的第一个回调函数，我们一般在其中进行申明绑定UI控件，以及一些数据的初始化的操作。</p>
+</li>
+<li><p><strong>onStart()</strong>：表示现在这个活动已经创建成功了，现在正在启动。是一个活动从不可见到可见的一个过度过程，所以Activity已经存在了，但就还是看不见的状态。</p>
+</li>
+<li><p><strong>onResume()</strong>：字面意思，“将其唤醒”，表示现在Activity已经是可见的了。与onStart对比的话，可以认为onStart的时候，Activity还是在后台，当到达onResume的时候，新的Activity已经到前台了。</p>
+</li>
+<li><p><strong>onPause()</strong>：表示该Activity正在停止，现在Activity仍然是可见的。常用来做一些保存关键数据的操作，onPause中不能进行耗时间的操作，会影响到后面的Activity出现的时间。onPause必须执行完了，新的活动的Activity的OnResume才能执行。</p>
+</li>
+<li><p><strong>onStop()</strong>：表示现在该活动已经看不见，表示Activity已经停止，可以做一些轻量级回收工作。与onPause的区别，onPause是还看得见的，onStop是已经看不见了，所以，如果只是以一个对话框启动，或者一个dialog启动，onPause会执行，而onStop不会执行。</p>
+</li>
+<li><p><strong>onDetory()</strong>：再该活动销毁前调用，表示该活动马上就要消失了，进行一些资源的回收工作。</p>
+</li>
+<li><p><strong>onRestart()</strong>：重新启动一个活动，当一个活动为不可见状态变到重新可见的情况下进行。接下来是onStart()，即重新可见函数。</p>
+</li>
+</ol>
+<h2 id="生命周期常见情况："><a href="#生命周期常见情况：" class="headerlink" title="生命周期常见情况："></a>生命周期常见情况：</h2><p>活动第一次启动：onCreate-&gt;onStart-&gt;onResume;<br>新开了一个活动，然后返回上一个活动：onPause-&gt;onStop-&gt;onRestart-&gt;onStart-&gt;onResume<br>按下home键：onPause-&gt;onStop;<br>home键后重新回来：onRestart-&gt;onStart-&gt;onResume;<br>finish方法后：onRestart-&gt;onStart-&gt;Destroy;</p>
+<h2 id="生命周期特殊情况："><a href="#生命周期特殊情况：" class="headerlink" title="生命周期特殊情况："></a>生命周期特殊情况：</h2><p>资源不足，导致优先级较低的Activity被杀死<br>横竖屏切换<br>还有一个onSaveInstanceState()函数，保证在活动结束前，一定能调用，用于储存重要数据。</p>
+<h1 id="活动的启动模式"><a href="#活动的启动模式" class="headerlink" title="活动的启动模式"></a>活动的启动模式</h1><h2 id="启动模式类别"><a href="#启动模式类别" class="headerlink" title="启动模式类别"></a>启动模式类别</h2><p>Android提供的4种Activity的启动模式</p>
+<ul>
+<li>standard（标准模式） </li>
+<li>singleTop（栈顶复用模式） </li>
+<li>singleTask（站内复用模式）</li>
+<li>singleInstance（单例模式）</li>
+</ul>
+<p>在AndroidMainfest.xml中，通过给activity标签指定android:launchMode属性来选择启动模式。</p>
+<h2 id="启动模式结构"><a href="#启动模式结构" class="headerlink" title="启动模式结构"></a>启动模式结构</h2><p>Activity的管理采用栈的数据结构的方式。先进后出。<br><img src="/2017/10/31/Android四大组件之活动/Activity_task.png" alt="栈" title="栈"></p>
+<h2 id="4中启动方式"><a href="#4中启动方式" class="headerlink" title="4中启动方式"></a>4中启动方式</h2><h3 id="standard"><a href="#standard" class="headerlink" title="standard:"></a>standard:</h3><p>标准启动模式，每次启动一个Activity压入栈顶。谁启动的Activity，这个Activity就运行在那个Activity所在的栈中。<br>如果一个Activity中，启动自己本身这个Activity，也会生成一个新的该活动实例。<br><img src="/2017/10/31/Android四大组件之活动/standard.png" alt="standard" title="standard"><br>如果在Application和service中启动Activity，因为其没有所谓的栈，使用flag标识。<br>如：FLAG_ACTIVITY_NEW_TASK标记，创建一个新的栈。</p>
+<h3 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop:"></a>singleTop:</h3><p>栈顶复用模式，如果新建的Activity就是自己本身的话，就会重新加载该Activity，不会创建新的实例。<br><img src="/2017/10/31/Android四大组件之活动/singleTop.png" alt="singleTop" title="singleTop"></p>
+<h3 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask:"></a>singleTask:</h3><p>栈内复用模式，是一种单例模式，即栈内有且只有一个该Activity的实例。<br>可以在AndroidMainfest.xml中在对activity配置的时候，通过teskAffinity申明需要加载在那一个栈中。<br>如果指定的栈中，新创建的Activity不存在，则新创建一个，并压入栈中。如果存在，就把该Activity之上的活动全部杀死，直到该Activity置于栈顶。<br><img src="/2017/10/31/Android四大组件之活动/singleTask1.png" alt="singleTask1" title="singleTask1"><br><img src="/2017/10/31/Android四大组件之活动/singleTask2.png" alt="singleTask2" title="singleTask2"><br><img src="/2017/10/31/Android四大组件之活动/singleTask3.png" alt="singleTask3" title="singleTask3"></p>
+<h3 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance:"></a>singleInstance:</h3><p>单例模式，每一个Activity都在一个新的栈中</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>如果文章对您有用请随意打赏，谢谢支持！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/111.png" alt="JokerHerry WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/222.png" alt="JokerHerry Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/22/设计模式-创建型模式-单例模式/" rel="next" title="设计模式-创建型模式-单例模式">
+                <i class="fa fa-chevron-left"></i> 设计模式-创建型模式-单例模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/28/MVP的简单实现/" rel="prev" title="MVP的简单实现">
+                MVP的简单实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div id="sidebar-dimmer"></div>
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/0.jpg"
+               alt="JokerHerry" />
+          <p class="site-author-name" itemprop="name">JokerHerry</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/your-user-name" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/your-user-name" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/your-user-name" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/your-user-name" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-link"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com" title="百度" target="_blank">百度</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#活动是什么"><span class="nav-number">1.</span> <span class="nav-text">活动是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#活动基本用法"><span class="nav-number">2.</span> <span class="nav-text">活动基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#显式启动"><span class="nav-number">2.1.</span> <span class="nav-text">显式启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式启动"><span class="nav-number">2.2.</span> <span class="nav-text">隐式启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活动中传递数据"><span class="nav-number">2.3.</span> <span class="nav-text">活动中传递数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#活动的生命周期"><span class="nav-number">3.</span> <span class="nav-text">活动的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下面是对每个生命周期函数详细说明："><span class="nav-number">3.1.</span> <span class="nav-text">下面是对每个生命周期函数详细说明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期常见情况："><span class="nav-number">3.2.</span> <span class="nav-text">生命周期常见情况：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期特殊情况："><span class="nav-number">3.3.</span> <span class="nav-text">生命周期特殊情况：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#活动的启动模式"><span class="nav-number">4.</span> <span class="nav-text">活动的启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动模式类别"><span class="nav-number">4.1.</span> <span class="nav-text">启动模式类别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动模式结构"><span class="nav-number">4.2.</span> <span class="nav-text">启动模式结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4中启动方式"><span class="nav-number">4.3.</span> <span class="nav-text">4中启动方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#standard"><span class="nav-number">4.3.1.</span> <span class="nav-text">standard:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#singleTop"><span class="nav-number">4.3.2.</span> <span class="nav-text">singleTop:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#singleTask"><span class="nav-number">4.3.3.</span> <span class="nav-text">singleTask:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#singleInstance"><span class="nav-number">4.3.4.</span> <span class="nav-text">singleInstance:</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JokerHerry</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
