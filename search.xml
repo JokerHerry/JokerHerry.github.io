@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[MVP的简单实现]]></title>
       <url>/2017/11/28/MVP%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/</url>
-      <content type="html"><![CDATA[<p>一个好的好的设计模式可以帮我们很好的管理我们的代码，也会方便于我们的后期的扩展。特别是针对我们这样的新手，学好一个好的代码管理是很有必要的。所以今天，和大家一起学习一下MVP模式。</p>
+      <content type="html"><![CDATA[<p>一个好的好的设计模式可以帮我们很好的管理我们的代码，也会方便于我们的后期的扩展。特别是针对我们这样的新手，学好一个好的代码管理是很有必要的。所以今天，和大家一起学习一下MVP模式。<br><a id="more"></a></p>
 <h1 id="一、MVP设计模式概述"><a href="#一、MVP设计模式概述" class="headerlink" title="一、MVP设计模式概述"></a>一、MVP设计模式概述</h1><h4 id="什么是MVP设计模式"><a href="#什么是MVP设计模式" class="headerlink" title="什么是MVP设计模式"></a>什么是MVP设计模式</h4><p>MVP，分别是Model-View-Presenter,即模型-视图-提出者。<br>Model：模型，实现业务逻辑和实例生成。<br>View：视图，对应的界面布局，以及界面布局的方法。<br>Presenter：一个活动中，主要的业务交互，作为view和model的中间传达者。</p>
 <h4 id="什么是MVC设计模式"><a href="#什么是MVC设计模式" class="headerlink" title="什么是MVC设计模式"></a>什么是MVC设计模式</h4><p>MVP，分别是Model-View-Presenter,即模型-视图-控制器。<br>Model：模型，实现业务逻辑和实例生成。<br>View：视图，对应的界面布局，以及界面布局的方法。<br>Controllor：作为页面的控制器，响应view的交互，对应于Android中的Activity</p>
 <h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><p>这么说可能不是很清晰，我们用两张图片来描述一下。<br><img src="http://upload-images.jianshu.io/upload_images/9221897-e7698e3d35552cb8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="MVP与MVC对比"></p>
