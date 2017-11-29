@@ -488,46 +488,14 @@
 
       
         
-          
-            <h1 id="活动是什么"><a href="#活动是什么" class="headerlink" title="活动是什么"></a>活动是什么</h1><p>活动就是Activity，Android的四大组件之一。用户看到的界面，以及用户与界面的交互，都是通过活动（Activity）来完成的。<br>所以可以把活动理解为一个与用户交互的界面。</p>
-<h1 id="活动基本用法"><a href="#活动基本用法" class="headerlink" title="活动基本用法"></a>活动基本用法</h1><p>要启动一个活动，那就肯定需要使用到Intent。在使用Intent的基础上，有两种启动方式。</p>
-<h2 id="显式启动"><a href="#显式启动" class="headerlink" title="显式启动"></a>显式启动</h2><p>找准你需要启动的活动，然后实现intent就可以直接启动。<br>Intent intent = new Intent(this.class,ActivityTow.class);<br>startActivity(intent);</p>
-<h2 id="隐式启动"><a href="#隐式启动" class="headerlink" title="隐式启动"></a>隐式启动</h2><p>采用一种含蓄的方式，在intent中并不说明你需要启动的是那一个活动，而是让系统自己去找。<br>因为很少用到，这里就不说了。</p>
-<h2 id="活动中传递数据"><a href="#活动中传递数据" class="headerlink" title="活动中传递数据"></a>活动中传递数据</h2><p>在使用Intent启动活动的时候，我们可以通过的intent的putExtra方法向下一个活动传递参数。<br>intent.putExtra(name,value);<br>通过键值对的方式，传递参数。<br>新开的活动可以通过getIntent().getStringExtra()等一些重载的函数，获取传递过来的参数。<br>String bili = getIntent().getStringExtra(“bili”);</p>
-<h1 id="活动的生命周期"><a href="#活动的生命周期" class="headerlink" title="活动的生命周期"></a>活动的生命周期</h1><p>“咚咚咚，敲黑板，重点来了。”<br><img src="/2017/10/31/Android四大组件之活动/生命周期.png" alt="生命周期" title="生命周期"><br>生命周期一共有7个回掉函数，表示整个活动从生成到死亡，以及中间的暂停状态中，一共经历了那些生命函数。<br>一个普通的生命周期为：<br>onCreate()-&gt;onStart()-&gt;onResume()-&gt;onPause()-&gt;onStop()-&gt;onDestory()<br>一共6个部分，还有一个onRestart()在活动暂停后又被唤醒的时候，调用。</p>
-<h2 id="下面是对每个生命周期函数详细说明："><a href="#下面是对每个生命周期函数详细说明：" class="headerlink" title="下面是对每个生命周期函数详细说明："></a>下面是对每个生命周期函数详细说明：</h2><ol>
-<li><p><strong>onCreate()</strong>：在一个活动初次创建的时候调用，作为启动活动的第一个回调函数，我们一般在其中进行申明绑定UI控件，以及一些数据的初始化的操作。</p>
-</li>
-<li><p><strong>onStart()</strong>：表示现在这个活动已经创建成功了，现在正在启动。是一个活动从不可见到可见的一个过度过程，所以Activity已经存在了，但就还是看不见的状态。</p>
-</li>
-<li><p><strong>onResume()</strong>：字面意思，“将其唤醒”，表示现在Activity已经是可见的了。与onStart对比的话，可以认为onStart的时候，Activity还是在后台，当到达onResume的时候，新的Activity已经到前台了。</p>
-</li>
-<li><p><strong>onPause()</strong>：表示该Activity正在停止，现在Activity仍然是可见的。常用来做一些保存关键数据的操作，onPause中不能进行耗时间的操作，会影响到后面的Activity出现的时间。onPause必须执行完了，新的活动的Activity的OnResume才能执行。</p>
-</li>
-<li><p><strong>onStop()</strong>：表示现在该活动已经看不见，表示Activity已经停止，可以做一些轻量级回收工作。与onPause的区别，onPause是还看得见的，onStop是已经看不见了，所以，如果只是以一个对话框启动，或者一个dialog启动，onPause会执行，而onStop不会执行。</p>
-</li>
-<li><p><strong>onDetory()</strong>：再该活动销毁前调用，表示该活动马上就要消失了，进行一些资源的回收工作。</p>
-</li>
-<li><p><strong>onRestart()</strong>：重新启动一个活动，当一个活动为不可见状态变到重新可见的情况下进行。接下来是onStart()，即重新可见函数。</p>
-</li>
-</ol>
-<h2 id="生命周期常见情况："><a href="#生命周期常见情况：" class="headerlink" title="生命周期常见情况："></a>生命周期常见情况：</h2><p>活动第一次启动：onCreate-&gt;onStart-&gt;onResume;<br>新开了一个活动，然后返回上一个活动：onPause-&gt;onStop-&gt;onRestart-&gt;onStart-&gt;onResume<br>按下home键：onPause-&gt;onStop;<br>home键后重新回来：onRestart-&gt;onStart-&gt;onResume;<br>finish方法后：onRestart-&gt;onStart-&gt;Destroy;</p>
-<h2 id="生命周期特殊情况："><a href="#生命周期特殊情况：" class="headerlink" title="生命周期特殊情况："></a>生命周期特殊情况：</h2><p>资源不足，导致优先级较低的Activity被杀死<br>横竖屏切换<br>还有一个onSaveInstanceState()函数，保证在活动结束前，一定能调用，用于储存重要数据。</p>
-<h1 id="活动的启动模式"><a href="#活动的启动模式" class="headerlink" title="活动的启动模式"></a>活动的启动模式</h1><h2 id="启动模式类别"><a href="#启动模式类别" class="headerlink" title="启动模式类别"></a>启动模式类别</h2><p>Android提供的4种Activity的启动模式</p>
-<ul>
-<li>standard（标准模式） </li>
-<li>singleTop（栈顶复用模式） </li>
-<li>singleTask（站内复用模式）</li>
-<li>singleInstance（单例模式）</li>
-</ul>
-<p>在AndroidMainfest.xml中，通过给activity标签指定android:launchMode属性来选择启动模式。</p>
-<h2 id="启动模式结构"><a href="#启动模式结构" class="headerlink" title="启动模式结构"></a>启动模式结构</h2><p>Activity的管理采用栈的数据结构的方式。先进后出。<br><img src="/2017/10/31/Android四大组件之活动/Activity_task.png" alt="栈" title="栈"></p>
-<h2 id="4中启动方式"><a href="#4中启动方式" class="headerlink" title="4中启动方式"></a>4中启动方式</h2><h3 id="standard"><a href="#standard" class="headerlink" title="standard:"></a>standard:</h3><p>标准启动模式，每次启动一个Activity压入栈顶。谁启动的Activity，这个Activity就运行在那个Activity所在的栈中。<br>如果一个Activity中，启动自己本身这个Activity，也会生成一个新的该活动实例。<br><img src="/2017/10/31/Android四大组件之活动/standard.png" alt="standard" title="standard"><br>如果在Application和service中启动Activity，因为其没有所谓的栈，使用flag标识。<br>如：FLAG_ACTIVITY_NEW_TASK标记，创建一个新的栈。</p>
-<h3 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop:"></a>singleTop:</h3><p>栈顶复用模式，如果新建的Activity就是自己本身的话，就会重新加载该Activity，不会创建新的实例。<br><img src="/2017/10/31/Android四大组件之活动/singleTop.png" alt="singleTop" title="singleTop"></p>
-<h3 id="singleTask"><a href="#singleTask" class="headerlink" title="singleTask:"></a>singleTask:</h3><p>栈内复用模式，是一种单例模式，即栈内有且只有一个该Activity的实例。<br>可以在AndroidMainfest.xml中在对activity配置的时候，通过teskAffinity申明需要加载在那一个栈中。<br>如果指定的栈中，新创建的Activity不存在，则新创建一个，并压入栈中。如果存在，就把该Activity之上的活动全部杀死，直到该Activity置于栈顶。<br><img src="/2017/10/31/Android四大组件之活动/singleTask1.png" alt="singleTask1" title="singleTask1"><br><img src="/2017/10/31/Android四大组件之活动/singleTask2.png" alt="singleTask2" title="singleTask2"><br><img src="/2017/10/31/Android四大组件之活动/singleTask3.png" alt="singleTask3" title="singleTask3"></p>
-<h3 id="singleInstance"><a href="#singleInstance" class="headerlink" title="singleInstance:"></a>singleInstance:</h3><p>单例模式，每一个Activity都在一个新的栈中</p>
-
-          
+          <h1 id="活动是什么"><a href="#活动是什么" class="headerlink" title="活动是什么"></a>活动是什么</h1><p>活动就是Activity，Android的四大组件之一。用户看到的界面，以及用户与界面的交互，都是通过活动（Activity）来完成的。<br>所以可以把活动理解为一个与用户交互的界面。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/31/Android四大组件之活动/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
